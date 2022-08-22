@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1d850c657138e6c71bd99d87c6745b34",
+    "content-hash": "96f3bc54045c0cff5ab74b59b9d8059b",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1124,6 +1124,47 @@
                 }
             ],
             "time": "2020-06-13T08:05:20+00:00"
+        },
+        {
+            "name": "kaizerenrique/consultabcv",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kaizerenrique/Consultabcv.git",
+                "reference": "a8e02661d5c53d65ecde63311a2bb9f2e527bd40"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kaizerenrique/Consultabcv/zipball/a8e02661d5c53d65ecde63311a2bb9f2e527bd40",
+                "reference": "a8e02661d5c53d65ecde63311a2bb9f2e527bd40",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.4"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Kaizerenrique\\Consultabcv\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "kaizerenrique",
+                    "email": "kayserenrique@gmail.com"
+                }
+            ],
+            "description": "Returns el valor del USD del BCV",
+            "support": {
+                "issues": "https://github.com/kaizerenrique/Consultabcv/issues",
+                "source": "https://github.com/kaizerenrique/Consultabcv/tree/main"
+            },
+            "time": "2022-07-23T20:22:14+00:00"
         },
         {
             "name": "laravel/fortify",
@@ -8689,7 +8730,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "kaizerenrique/consultabcv": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
