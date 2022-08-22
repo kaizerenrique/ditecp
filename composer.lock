@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "96f3bc54045c0cff5ab74b59b9d8059b",
+    "content-hash": "9d558d3558000463b46e76ae5143a61a",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1124,6 +1124,47 @@
                 }
             ],
             "time": "2020-06-13T08:05:20+00:00"
+        },
+        {
+            "name": "kaizerenrique/cedulavenezuela",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kaizerenrique/cedulavenezuela.git",
+                "reference": "9294c794a0fffe304aff00587060ce84c9ad5798"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kaizerenrique/cedulavenezuela/zipball/9294c794a0fffe304aff00587060ce84c9ad5798",
+                "reference": "9294c794a0fffe304aff00587060ce84c9ad5798",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.4"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Kaizerenrique\\Cedulavenezuela\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "kaizerenrique",
+                    "email": "kayserenrique@gmail.com"
+                }
+            ],
+            "description": "consulta la informacion asociada a un numero de cedula en el cne y el ivss",
+            "support": {
+                "issues": "https://github.com/kaizerenrique/cedulavenezuela/issues",
+                "source": "https://github.com/kaizerenrique/cedulavenezuela/tree/main"
+            },
+            "time": "2022-07-23T01:29:09+00:00"
         },
         {
             "name": "kaizerenrique/consultabcv",
@@ -8731,6 +8772,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "kaizerenrique/cedulavenezuela": 20,
         "kaizerenrique/consultabcv": 20
     },
     "prefer-stable": true,
