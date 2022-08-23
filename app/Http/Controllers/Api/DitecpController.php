@@ -57,9 +57,17 @@ class DitecpController extends Controller
         $conCedulaCne = new ConsultaCedula();
         $info = $conCedulaCne->consultar($nac, $ci);
 
-        return response()->json([
-            "status" => 200,
-            "info" => $info
-        ]);
+        if ($info == false) {
+            return response()->json([
+                "status" => 404,
+                "info" => "No encontrado"
+            ]);
+        } else {
+            return response()->json([
+                "status" => 200,
+                "info" => $info
+            ]);
+        }
+        
     }
 }
