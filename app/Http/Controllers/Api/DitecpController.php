@@ -70,4 +70,47 @@ class DitecpController extends Controller
         }
         
     }
+
+    /**
+    * Esta función consulta si una persona es pensionada del IVSS.
+    * @param string   $nac 	Valores permitidos [V|E]
+	* @param string   $ci 	Número de Cédula de Identidad
+	* @param string   $d1 	Dia de Nacimiento  	
+	* @param string   $m1 	Mes de Nacimiento
+	* @param string   $y1 	Año de Nacimiento 
+    *
+    * @return Retorna un array.
+    */
+
+    public function consultaIvssPensionado(Request $request)
+    {
+        $request->validate([
+            'nac' => 'required|string',
+            'ci' => 'required|numeric',
+            'd1' => 'required|numeric',
+            'm1' => 'required|numeric',
+            'y1' => 'required|numeric',
+        ]);
+
+        $nac = $request->nac;
+        $ci = $request->ci;
+        $d1 = $request->d1;
+        $m1 = $request->m1;
+        $y1 = $request->y1;
+
+        $conCedulaIvss = new ConsultaCedula();
+        $info = $conCedulaIvss->ivssPension($nac, $ci, $d1, $m1, $y1);
+
+        if ($info == false) {
+            return response()->json([
+                "status" => 404,
+                "info" => "No encontrado"
+            ]);
+        } else {
+            return response()->json([
+                "status" => 200,
+                "info" => $info
+            ]);
+        }
+    }
 }
