@@ -20,3 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/consultarusdbcv',[DitecpController::class,'consultarValorUsd'])->middleware('auth:sanctum');
+
+Route::post('/consultarCedulaCne',[DitecpController::class,'consultarCedulaCne'])->middleware('auth:sanctum');
