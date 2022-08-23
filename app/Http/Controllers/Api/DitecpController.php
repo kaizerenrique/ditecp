@@ -26,7 +26,7 @@ class DitecpController extends Controller
         if ($usd == false) {
             return response()->json([
                 "status" => 404,
-                "usd" => "No encontrado"
+                "usd" => "Error de conexión fuente no encontrada."
             ]); 
         } else {
             return response()->json([
@@ -60,7 +60,7 @@ class DitecpController extends Controller
         if ($info == false) {
             return response()->json([
                 "status" => 404,
-                "info" => "No encontrado"
+                "info" => "Error de conexión fuente no encontrada."
             ]);
         } else {
             return response()->json([
@@ -104,7 +104,7 @@ class DitecpController extends Controller
         if ($info == false) {
             return response()->json([
                 "status" => 404,
-                "info" => "No encontrado"
+                "info" => "Error de conexión fuente no encontrada."
             ]);
         } else {
             return response()->json([
@@ -147,7 +147,7 @@ class DitecpController extends Controller
         if ($info == false) {
             return response()->json([
                 "status" => 404,
-                "info" => "No encontrado"
+                "info" => "Error de conexión fuente no encontrada."
             ]);
         } else {
             return response()->json([
