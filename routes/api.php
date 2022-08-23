@@ -24,3 +24,5 @@ Route::get('/consultarusdbcv',[DitecpController::class,'consultarValorUsd'])->mi
 Route::post('/consultarCedulaCne',[DitecpController::class,'consultarCedulaCne'])->middleware('auth:sanctum');
 
 Route::post('/consultarCedulaIvssPension',[DitecpController::class,'consultaIvssPensionado'])->middleware('auth:sanctum');
+
+Route::post('/consultarCedulaIvss',[DitecpController::class,'consultarCuentaIndividualIvss'])->middleware('auth:sanctum');

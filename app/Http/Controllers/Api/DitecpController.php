@@ -113,4 +113,48 @@ class DitecpController extends Controller
             ]);
         }
     }
+
+    /**
+    * Esta función consulta si una persona posee cuenta del IVSS.
+    * @param string   $nac 	Valores permitidos [V|E]
+	* @param string   $ci 	Número de Cédula de Identidad
+	* @param string   $d 	Dia de Nacimiento  	
+	* @param string   $m 	Mes de Nacimiento
+	* @param string   $y 	Año de Nacimiento 
+    *
+    * @return Retorna un array.
+    */
+
+    public function consultarCuentaIndividualIvss(Request $request)
+    {
+        $request->validate([
+            'nac' => 'required|string',
+            'ci' => 'required|numeric',
+            'd' => 'required|numeric',
+            'm' => 'required|numeric',
+            'y' => 'required|numeric',
+        ]);
+
+        $nac = $request->nac;
+        $ci = $request->ci;
+        $d = $request->d;
+        $m = $request->m;
+        $y = $request->y;
+        
+        $conCedulaIvss = new ConsultaCedula();
+        $info = $conCedulaIvss->cuentaIndividual($nac, $ci, $d, $m, $y);
+
+        if ($info == false) {
+            return response()->json([
+                "status" => 404,
+                "info" => "No encontrado"
+            ]);
+        } else {
+            return response()->json([
+                "status" => 200,
+                "info" => $info
+            ]);
+        }
+
+    }
 }
