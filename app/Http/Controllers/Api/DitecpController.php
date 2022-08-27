@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Kaizerenrique\Consultabcv\Consultabcv;
 use Kaizerenrique\Cedulavenezuela\ConsultaCedula;
+use Illuminate\Support\Facades\Http;
 
 class DitecpController extends Controller
 {    
@@ -156,5 +157,23 @@ class DitecpController extends Controller
             ]);
         }
 
+    }
+
+    public function apiwha()
+    {
+        $tokenApi = 'EAAIZBovnnWcQBAJqT07nT6y6VRY81mDQex6JtrCbrZAMBxIiw5XEfJoSCH9isag91qZBiqVAp0bpfch4TDTgtkUOQuDGPW25sRqT7PHIngK3tg4WWEzUJASmi1x5j9uLPJOo5ZBbqlXngn7m4N6uPxcP8KF6iaTq2lSbrs5SMiTAJRA3IvhD3Ao5vFhBW9fAcs8k0cCfLwZDZD';
+        $response = Http::withToken($tokenApi)->accept('application/json')->post('https://graph.facebook.com/v13.0/102740705902434/messages',[
+                'messaging_product' => 'whatsapp',
+                'to' => '584129918810',
+                'type' => 'template',
+                'template' => [
+                    'name' => 'plantilla_base_01',
+                    'language' => [
+                        'code' => 'es'
+                    ]
+                ]
+        ]);
+
+        return $response;
     }
 }

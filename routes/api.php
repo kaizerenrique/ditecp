@@ -26,3 +26,5 @@ Route::post('/consultarCedulaCne',[DitecpController::class,'consultarCedulaCne']
 Route::post('/consultarCedulaIvssPension',[DitecpController::class,'consultaIvssPensionado'])->middleware('auth:sanctum');
 
 Route::post('/consultarCedulaIvss',[DitecpController::class,'consultarCuentaIndividualIvss'])->middleware('auth:sanctum');
+
+Route::get('/apiwha',[DitecpController::class,'apiwha'])->middleware('auth:sanctum');
