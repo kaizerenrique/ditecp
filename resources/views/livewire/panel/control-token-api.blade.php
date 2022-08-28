@@ -5,7 +5,7 @@
             <!-- titulo -->
             <div class="flex flex-wrap items-center px-4 py-2">
                 <div class="relative w-full max-w-full flex-grow flex-1">
-                    <h3 class="font-semibold text-base text-gray-900 dark:text-gray-50">Hola</h3>
+                    <h3 class="font-semibold text-base text-gray-900 dark:text-gray-50">Listado de Tokens para la APIs</h3>
                 </div>
             </div>
             <!-- \titulo -->
@@ -22,36 +22,31 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                            <tr class="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400">
-                                <td class="px-4 py-3">
-                                    Hola 1
-                                </td>
-                                <td class="px-4 py-3">
-                                    Hola 1
-                                </td>
-                                <td class="px-4 py-3">
-                                    Hola 1
-                                </td>
-                                <td class="px-4 py-3">
-                                    Hola 1
-                                </td>
-                            </tr>
-                            <tr class="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400">
-                                <td class="px-4 py-3">
-                                    Hola 1
-                                </td>
-                                <td class="px-4 py-3">
-                                    Hola 1
-                                </td>
-                                <td class="px-4 py-3">
-                                    Hola 1
-                                </td>
-                                <td class="px-4 py-3">
-                                    Hola 1
-                                </td>
-                            </tr>
+                            @foreach ($tokens as $token)
+                                <tr class="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400">
+                                    <td class="px-4 py-3">
+                                        {{$token->name}}
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        {{$token->created_at}}
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        @if ($token->last_used_at)
+                                            {{ $token->last_used_at->diffForHumans() }}
+                                        @else
+                                            <p>No Usado</p>
+                                        @endif
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        Hola 1
+                                    </td>
+                                </tr>                                
+                            @endforeach
                         </tbody>                        
                     </table>
+                </div>
+                <div class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
+                    {{$tokens->links()}}
                 </div>
             </div>
             <!-- \tabla -->
@@ -64,7 +59,7 @@
             <!-- titulo -->
             <div class="flex flex-wrap items-center px-4 py-2">
                 <div class="relative w-full max-w-full flex-grow flex-1">
-                    <h3 class="font-semibold text-base text-gray-900 dark:text-gray-50">Hola</h3>
+                    <h3 class="font-semibold text-base text-gray-900 dark:text-gray-50">Crear Token</h3>
                 </div>
             </div>
             <!-- \titulo -->

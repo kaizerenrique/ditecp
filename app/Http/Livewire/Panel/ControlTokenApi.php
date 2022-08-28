@@ -3,14 +3,19 @@
 namespace App\Http\Livewire\Panel;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class ControlTokenApi extends Component
 {
+    use WithPagination;
+
     public function render()
     {
         // obtener la lista de tokens de un usuario
-        $tokens = auth()->user()->tokens;
+        $tokens = auth()->user()->tokens()->paginate(10);
         
-        return view('livewire.panel.control-token-api');
+        return view('livewire.panel.control-token-api',[
+            'tokens' => $tokens,
+        ]);
     }
 }
