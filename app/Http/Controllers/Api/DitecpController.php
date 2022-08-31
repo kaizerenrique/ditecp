@@ -68,8 +68,7 @@ class DitecpController extends Controller
                 "status" => 200,
                 "info" => $info
             ]);
-        }
-        
+        }        
     }
 
     /**
@@ -156,7 +155,6 @@ class DitecpController extends Controller
                 "info" => $info
             ]);
         }
-
     }
 
     public function apiwha()

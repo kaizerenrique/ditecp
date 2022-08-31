@@ -7,6 +7,11 @@ use Kaizerenrique\Consultabcv\Consultabcv;
 
 class TargetasInformacion extends Component
 {
+    protected $listeners = ['eliminarToken'];    
+    public function eliminarToken(){
+
+    }
+
     public function render()
     {
         //consultar Valor BCV
