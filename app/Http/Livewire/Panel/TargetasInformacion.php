@@ -33,11 +33,18 @@ class TargetasInformacion extends Component
         //total tokens restantes 
         $tokensRestantes = $tokensTotales - $tokensNumero;
 
+        //ultimos tokens usados
+        $tokenslis = auth()->user()->tokens()->orderBy('last_used_at', 'desc')->paginate(3);
+
+        $tokenslis2 = auth()->user()->tokens()->orderBy('last_used_at', 'asc')->paginate(3);
+
         return view('livewire.panel.targetas-informacion',[
             'usd' => $usd,
             'tokensNumero' => $tokensNumero,
             'tokensTotales' => $tokensTotales,
-            'tokensRestantes' => $tokensRestantes,            
+            'tokensRestantes' => $tokensRestantes,
+            'tokenslis' => $tokenslis,
+            'tokenslis2' => $tokenslis2,            
         ]);
     }
 }
