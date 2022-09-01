@@ -61,7 +61,7 @@
             </span>            
         </div>
     </div>
-    <!-- \tabla -->
+<!-- \tabla -->
 
 <!-- Inicio del Modal para Registrar token -->
     <x-jet-dialog-modal wire:model="agregarToken">

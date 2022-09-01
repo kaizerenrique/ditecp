@@ -26,3 +26,8 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+// rutas de administracion del sistema 
+Route::middleware(['auth:sanctum', 'verified'])->get('administracion/usuarios', function () {
+    return view('administracion/usuarios');
+})->name('usuarios');

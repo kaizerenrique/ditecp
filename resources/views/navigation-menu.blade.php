@@ -17,6 +17,11 @@
                             {{ __('Dashboard') }}
                         </x-jet-nav-link>
                     </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-jet-nav-link href="{{ route('usuarios') }}" :active="request()->routeIs('usuarios')" class="text-gray-300 hover:text-white">
+                            {{ __('Usuarios') }}
+                        </x-jet-nav-link>
+                    </div>
                 </div>
 
                 <div class="hidden sm:flex sm:items-center sm:ml-6">
