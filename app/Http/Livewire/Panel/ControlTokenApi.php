@@ -12,12 +12,21 @@ class ControlTokenApi extends Component
     //variables
     public $agregarToken = false;
     public $mostrarTokenApi = false;
+    public $eliminatoken = false;
+    public $identificador;
+    public $mensaje;
     public $name;
+    public $buscar;
+    
+    protected $queryString = [
+        'buscar' => ['except' => '']
+    ];
 
     public function render()
     {
         // obtener la lista de tokens de un usuario y ordenar por tiempo de actualizacion
-        $tokens = auth()->user()->tokens()->orderBy('last_used_at', 'desc')->paginate(5);
+        $tokens = auth()->user()->tokens()->where('name', 'like', '%'.$this->buscar . '%')->orderBy('last_used_at', 'desc')->paginate(5);
+        
         
         return view('livewire.panel.control-token-api',[
             'tokens' => $tokens,
@@ -32,12 +41,21 @@ class ControlTokenApi extends Component
 
     public function eliminarToken($id)
     {       
+        $tokenId = $id;   
+
+        $this->mensaje = 'Esta Seguro de querer Eliminar el token, una vez eliminado no puede ser recuperado.';
+        $this->identificador = $tokenId;
+        $this->eliminatoken = true;
+
+    }
+
+    public function borrarToken($id)
+    {        
         $tokenId = $id;
         auth()->user()->tokens()->where('id', $tokenId )->delete();
-
         //actualiza la tarjeta de informacion 
         $this->emitTo('panel.targetas-informacion', 'eliminarToken');
-        
+        $this->eliminatoken = false;
     }
 
     //registrar nuevo token

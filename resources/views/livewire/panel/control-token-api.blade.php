@@ -3,9 +3,8 @@
         <div class="relative w-full max-w-full flex-grow flex-1">
           <h3 class="font-semibold text-base text-gray-900 dark:text-gray-50">Listado de Tokens para la APIs</h3>
         </div>
-        <div class="flex flex-col items-center w-full max-w-xl">
-            <label for="name" class="hidden">Full Name</label>
-            <input type="search" name="name" id="name" placeholder="Search" class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none">
+        <div class="flex flex-col items-center w-full max-w-xl">            
+            <input type="search" wire:model="buscar" placeholder="Buscar" class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none">
         </div>
         <div class="relative w-full max-w-full flex-grow flex-1 text-right">
             <button class="bg-blue-500 dark:bg-gray-100 text-white active:bg-blue-600 dark:text-gray-800 dark:active:text-gray-700 text-xs 
@@ -89,7 +88,7 @@
     </x-jet-dialog-modal>
 <!-- Fin del Modal para Registrar token -->
 
-<!-- Inicio del Modal para Laboratorio Registrado Correctamente  -->
+<!-- Inicio del Modal para ver token de api  -->
 <x-jet-dialog-modal wire:model="mostrarTokenApi">
     <x-slot name="title">
         {{ __('Token') }}
@@ -108,5 +107,25 @@
         </x-jet-secondary-button>
     </x-slot>
 </x-jet-dialog-modal>
-<!-- Fin del Modal para Laboratorio Registrado Correctamente  -->
+<!-- Fin del Modal para ver token de api  -->
+
+<!-- Inicio del Modal para Eliminar token -->
+<x-jet-dialog-modal wire:model="eliminatoken">
+    <x-slot name="title">
+        {{ __('Borrar Token') }}
+    </x-slot>
+    <x-slot name="content">             
+        {{$mensaje}}
+    </x-slot>
+
+    <x-slot name="footer">            
+        <x-jet-secondary-button wire:click="$toggle('eliminatoken', false)" wire:loading.attr="disabled">
+            {{ __('Cerrar') }}
+        </x-jet-secondary-button>
+        <x-jet-danger-button class="ml-3" wire:click="borrarToken({{$identificador}})" wire:loading.attr="disabled">
+            {{ __('Eliminar') }}
+        </x-jet-danger-button>
+    </x-slot>
+</x-jet-dialog-modal>
+<!-- Fin del Modal para Eliminar token -->
 </div>
