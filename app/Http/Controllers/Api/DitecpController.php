@@ -34,7 +34,7 @@ class DitecpController extends Controller
                 "status" => 200,
                 "usd" => $usd
             ]);            
-        }
+        }        
     }
 
     /** 
