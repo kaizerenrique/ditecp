@@ -36,7 +36,7 @@
                             </td>
                             <td class="px-4 py-3">
                                 @if ($token->last_used_at)
-                                    {{ $token->last_used_at->diffForHumans() }}
+                                    {{ $token->last_used_at->diffForHumans()}}
                                 @else
                                     <p>No Usado</p>
                                 @endif

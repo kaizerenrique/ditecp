@@ -19,16 +19,16 @@ class TargetasInformacion extends Component
         $usd = $usdconsulta->valorbcv();
 
         if ($usd == false) {            
-                $usd = "Error de conexión.";            
+            $usd = "Error de conexión.";            
         } else {
-                $usd = $usd;       
+            $usd = $usd;       
         }
 
         //consultar numero de apis registrados
         $tokensNumero = auth()->user()->tokens()->count();
 
         //total tokens disponibles
-        $tokensTotales = 120;
+        $tokensTotales = auth()->user()->parametro->limite;
 
         //total tokens restantes 
         $tokensRestantes = $tokensTotales - $tokensNumero;

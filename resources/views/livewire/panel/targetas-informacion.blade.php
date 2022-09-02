@@ -74,7 +74,11 @@
                                     {{$tokensli->name}}
                                 </th>
                                 <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                    {{$tokensli->last_used_at->diffForHumans() }}
+                                    @if ($tokensli->last_used_at)
+                                        {{$tokensli->last_used_at->diffForHumans()}}
+                                    @else
+                                        <p>No Usado</p>
+                                    @endif
                                 </td>
                             </tr>                            
                         @endforeach                        
