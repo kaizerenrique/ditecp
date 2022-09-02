@@ -19,8 +19,11 @@ class Usuarios extends Component
     public $email;
     public $rol;
     public $token;
+    public $identificador;
+    public $mensaje;
 
     public $modalAgregarUsuario = false;
+    public $modalBorrarUsuario = false;
 
     protected $queryString = [
         'buscar' => ['except' => '']
@@ -55,6 +58,7 @@ class Usuarios extends Component
     {
         $this->reset(['name']);
         $this->reset(['email']);
+        $this->reset(['token']);
         $this->modalAgregarUsuario = true;
     }
 
@@ -83,5 +87,23 @@ class Usuarios extends Component
         ]);
         
         $this->modalAgregarUsuario = false;               
+    }
+
+    public function consultarBorrarUsuario($id)
+    {
+        $usuarioId = $id;  
+        $usuario = User::find($id); 
+
+        $this->mensaje = 'Esta Seguro de querer Eliminar al Usuario: '. $usuario->name .' una vez eliminado no puede ser recuperado.';
+        $this->identificador = $usuarioId;
+        $this->modalBorrarUsuario = true;
+    }
+
+    public function borrarUsuario($id)
+    {
+        $this->modalBorrarUsuario = false;
+
+        $resul = User::find($id);
+        $resul->delete();
     }
 }

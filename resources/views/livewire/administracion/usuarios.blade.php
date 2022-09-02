@@ -123,12 +123,12 @@
                                 <td class="px-4 py-3">
                                     <button class="bg-blue-500 dark:bg-gray-100 text-white active:bg-blue-600 dark:text-gray-800 dark:active:text-gray-700 text-xs 
                                     font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" 
-                                        type="button" ">Editar
+                                        type="button" >Editar
                                     </button>                              
                                     <button class="bg-blue-500 dark:bg-red-700 text-white active:bg-blue-600 dark:text-red-200 
                                         dark:active:text-red-100 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 
                                         ease-linear transition-all duration-150" 
-                                        type="button" ">Eliminar
+                                        type="button" wire:click="consultarBorrarUsuario({{$usuario->id}})" >Eliminar
                                     </button>
                                 </td>
                                 
@@ -147,7 +147,7 @@
     <!-- \tabla -->
     </div>
     
-    <!-- Inicio del Modal para Registrar usuario -->
+<!-- Inicio del Modal para Registrar usuario -->
     <x-jet-dialog-modal wire:model="modalAgregarUsuario">
         <x-slot name="title">
             {{ __('Registrar Usuario') }}
@@ -192,5 +192,25 @@
             </x-jet-danger-button>
         </x-slot>
     </x-jet-dialog-modal>
-    <!-- Fin del Modal para Registrar usuario -->
+<!-- Fin del Modal para Registrar usuario -->
+
+<!-- Inicio del Modal para Eliminar token -->
+    <x-jet-dialog-modal wire:model="modalBorrarUsuario">
+        <x-slot name="title">
+            {{ __('Borrar Usuario') }}
+        </x-slot>
+        <x-slot name="content">             
+            {{$mensaje}}
+        </x-slot>
+
+        <x-slot name="footer">            
+            <x-jet-secondary-button wire:click="$toggle('modalBorrarUsuario', false)" wire:loading.attr="disabled">
+                {{ __('Cerrar') }}
+            </x-jet-secondary-button>
+            <x-jet-danger-button class="ml-3" wire:click="borrarUsuario({{$identificador}})" wire:loading.attr="disabled">
+                {{ __('Eliminar') }}
+            </x-jet-danger-button>
+        </x-slot>
+    </x-jet-dialog-modal>
+<!-- Fin del Modal para Eliminar token -->
 </div>
