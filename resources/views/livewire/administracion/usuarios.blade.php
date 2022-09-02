@@ -214,7 +214,7 @@
     </x-jet-dialog-modal>
 <!-- Fin del Modal para Eliminar Usuario -->
 
-<!-- Inicio del Modal para Eliminar Usuario -->
+<!-- Inicio del Modal para mensajes alertas-->
 <x-jet-dialog-modal wire:model="modalMensaje">
     <x-slot name="title">
         {{ $titulo }}
@@ -229,5 +229,5 @@
         </x-jet-secondary-button>
     </x-slot>
 </x-jet-dialog-modal>
-<!-- Fin del Modal para Eliminar Usuario -->
+<!-- Fin del Modal para mensajes alertas -->
 </div>

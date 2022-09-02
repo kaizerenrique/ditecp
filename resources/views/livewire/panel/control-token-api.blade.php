@@ -99,6 +99,9 @@
             <x-jet-input id="token" type="text" class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 
             dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none" wire:model.defer="token" disabled/>
         </div> 
+        <div class="flex flex-col mt-2">
+            {{$mensaje}}
+        </div>
     </x-slot>
 
     <x-slot name="footer">
@@ -128,4 +131,5 @@
     </x-slot>
 </x-jet-dialog-modal>
 <!-- Fin del Modal para Eliminar token -->
+
 </div>

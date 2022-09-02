@@ -4,6 +4,8 @@ namespace App\Http\Livewire\Panel;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use Mail;
+use App\Mail\NotificacionMailable;
 
 class ControlTokenApi extends Component
 {
@@ -80,8 +82,27 @@ class ControlTokenApi extends Component
         $this->agregarToken = false;
         //actualiza la tarjeta de informacion 
         $this->emitTo('panel.targetas-informacion', 'eliminarToken');
-        $this->token = $tokenNuevo;
-        $this->mostrarTokenApi = true;
+        //$this->token = $tokenNuevo;
+        //$this->mostrarTokenApi = true;
+
+        //funcion que envia el correo
+        $subject = 'Nuevo Token Registrado';
+        $mensajeCorreo = 'Se a generado un nuevo token con las siguientes características: ';
+        $name = $this->name;
+        $email = auth()->user()->email;
+        $password = $tokenNuevo;
+
+        try {
+            $confirmacion = Mail::to($email)->send(new NotificacionMailable($subject, $mensajeCorreo, $name, $email, $password));            
+            $this->mensaje = 'Token registrado correctamente y correo enviado.';
+            $this->token = $tokenNuevo;
+            $this->mostrarTokenApi = true;
+        } catch (\Throwable $th) {
+            $confirmacion = false;
+            $this->mensaje = 'EL token se a generado correctamente, pero no se logro enviar por correo.';
+            $this->token = $tokenNuevo;
+            $this->mostrarTokenApi = true;
+        }  
         
     }
 
