@@ -8,6 +8,8 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Mail;
+use App\Mail\NotificacionMailable;
 
 class Usuarios extends Component
 {
@@ -20,10 +22,12 @@ class Usuarios extends Component
     public $rol;
     public $token;
     public $identificador;
+    public $titulo;
     public $mensaje;
 
     public $modalAgregarUsuario = false;
     public $modalBorrarUsuario = false;
+    public $modalMensaje = false;
 
     protected $queryString = [
         'buscar' => ['except' => '']
@@ -86,7 +90,28 @@ class Usuarios extends Component
             'limite' => $limite
         ]);
         
-        $this->modalAgregarUsuario = false;               
+        $this->modalAgregarUsuario = false;
+
+        //funcion que envia el correo
+        $subject = 'Nuevo Registro';
+        $mensajeCorreo = 'Por medio de este correo le damos la bienvenid@, puedes ingresar usando las siguientes credenciales: ';
+        $name = $this->name;
+        $email = $this->email;
+        $password = $password;
+
+        try {
+            $confirmacion = Mail::to($email)->send(new NotificacionMailable($subject, $mensajeCorreo, $name, $email, $password));
+
+            $this->titulo = 'Notificación.';
+            $this->mensaje = 'Usuario registrado correctamente y correo enviado.';
+            $this->modalMensaje = true;
+        } catch (\Throwable $th) {
+            $confirmacion = false;
+
+            $this->titulo = '¡ Alerta Error !';
+            $this->mensaje = 'Usuario registrado correctamente pero correo no enviado, error en envió de correo. ';
+            $this->modalMensaje = true;
+        }        
     }
 
     public function consultarBorrarUsuario($id)
