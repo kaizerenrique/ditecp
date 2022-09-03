@@ -15,7 +15,9 @@ class ControlTokenApi extends Component
     public $agregarToken = false;
     public $mostrarTokenApi = false;
     public $eliminatoken = false;
+    public $modalMensaje = false;
     public $identificador;
+    public $titulo;
     public $mensaje;
     public $name;
     public $buscar;
@@ -68,8 +70,20 @@ class ControlTokenApi extends Component
 
     public function tokenAdd()
     {
-        $this->reset(['name']);
-        $this->agregarToken = true;
+        //total tokens disponibles
+        $tokensTotales = auth()->user()->parametro->limite;
+
+        //consultar numero de tokens registrados
+        $tokensNumero = auth()->user()->tokens()->count();
+
+        if ($tokensTotales == $tokensNumero) {
+            $this->titulo = 'Notificación.';
+            $this->mensaje = 'A alcanzado el numero total de tokens disponibles para su cuenta.';
+            $this->modalMensaje = true;
+        } else {
+            $this->reset(['name']);
+            $this->agregarToken = true;
+        }
     }
 
     public function generarToken()

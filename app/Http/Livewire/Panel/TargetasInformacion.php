@@ -24,7 +24,7 @@ class TargetasInformacion extends Component
             $usd = $usd;       
         }
 
-        //consultar numero de apis registrados
+        //consultar numero de tokens registrados
         $tokensNumero = auth()->user()->tokens()->count();
 
         //total tokens disponibles

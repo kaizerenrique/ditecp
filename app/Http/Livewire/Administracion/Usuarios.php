@@ -127,8 +127,8 @@ class Usuarios extends Component
     public function borrarUsuario($id)
     {
         $this->modalBorrarUsuario = false;
-
         $resul = User::find($id);
+        $resul->tokens()->delete();
         $resul->delete();
     }
 }

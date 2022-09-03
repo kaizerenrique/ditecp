@@ -132,4 +132,21 @@
 </x-jet-dialog-modal>
 <!-- Fin del Modal para Eliminar token -->
 
+<!-- Inicio del Modal para mensajes alertas-->
+<x-jet-dialog-modal wire:model="modalMensaje">
+    <x-slot name="title">
+        {{ $titulo }}
+    </x-slot>
+    <x-slot name="content">             
+        {{$mensaje}}
+    </x-slot>
+
+    <x-slot name="footer">            
+        <x-jet-secondary-button wire:click="$toggle('modalMensaje', false)" wire:loading.attr="disabled">
+            {{ __('Cerrar') }}
+        </x-jet-secondary-button>
+    </x-slot>
+</x-jet-dialog-modal>
+<!-- Fin del Modal para mensajes alertas -->
+
 </div>
