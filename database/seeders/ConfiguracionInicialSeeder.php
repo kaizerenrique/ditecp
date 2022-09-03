@@ -31,24 +31,32 @@ class ConfiguracionInicialSeeder extends Seeder
             $useradmin->delete();
         }
 
+        // limite de tokens 
+        $limite = 10;
         $useradmin = User::create([
             'name' => 'Oliver Gomez',
             'email' => 'kayserenrique@gmail.com',
             'password' => Hash::make('123456789'),
             'email_verified_at' => '2022-09-01 13:03:29'
-        ])->assignRole('Administrador');
+        ])->assignRole('Administrador')->parametro()->create([
+            'limite' => $limite
+        ]);
 
         User::create([
             'name' => 'Dayana Martinez',
             'email' => 'dmaro006@gmail.com',
             'password' => Hash::make('123456789'),
             'email_verified_at' => '2022-09-01 13:03:29'
-        ])->assignRole('Administrador');
+        ])->assignRole('Administrador')->parametro()->create([
+            'limite' => $limite
+        ]);
 
         User::create([
             'name' => 'Odennis Quiroz',
             'email' => 'ohaymard@gmail.com',
             'password' => Hash::make('123456789'),
-        ])->assignRole('Usuario');        
+        ])->assignRole('Usuario')->parametro()->create([
+            'limite' => $limite
+        ]);        
     }
 }
