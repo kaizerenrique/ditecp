@@ -78,6 +78,7 @@ class ControlTokenApi extends Component
         
         $nombre = $this->name;
         $tokenNuevo = auth()->user()->createToken($nombre, ["read","create","update","delete"])->plainTextToken;
+        $tokenNuevo = explode('|', $tokenNuevo)[1];
         
         $this->agregarToken = false;
         //actualiza la tarjeta de informacion 
