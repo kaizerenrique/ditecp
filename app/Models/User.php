@@ -66,4 +66,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Parametro::class);
     }
+
+    public function registros()
+    {
+        return $this->hasMany(Registro::class);
+    }
 }

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Kaizerenrique\Consultabcv\Consultabcv;
 use Kaizerenrique\Cedulavenezuela\ConsultaCedula;
 use Illuminate\Support\Facades\Http;
+use App\Models\Registro;
 
 class DitecpController extends Controller
 {    
@@ -19,10 +20,27 @@ class DitecpController extends Controller
     * @return array que contiene el status y el valor del usd
     */
 
-    public function consultarValorUsd()
+    public function consultarValorUsd(Request $request)
     {
         $usdconsulta = new Consultabcv();
-        $usd = $usdconsulta->valorbcv();
+        $usd = $usdconsulta->valorbcv();       
+
+        //almacena los datos del usuario y el token que realizan la consulta
+        foreach ($request->user()->tokens()->get() as $tokenapli)
+        {
+            if (hash_equals($tokenapli->token, hash('sha256', $request->bearerToken()))) {
+                $respuesta = [
+                    'usuario' => $request->user()->id,
+                    'id_token' => $tokenapli->id,
+                    'operacion' => 'consultar USD'
+                ];
+            }
+        }
+
+        $request->user()->registros()->create([
+            'token_id' => $respuesta['id_token'],
+            'operacion' => $respuesta['operacion']
+        ]);
 
         if ($usd == false) {
             return response()->json([
@@ -34,7 +52,8 @@ class DitecpController extends Controller
                 "status" => 200,
                 "usd" => $usd
             ]);            
-        }        
+        } 
+        
     }
 
     /** 
@@ -57,6 +76,23 @@ class DitecpController extends Controller
 
         $conCedulaCne = new ConsultaCedula();
         $info = $conCedulaCne->consultar($nac, $ci);
+
+        //almacena los datos del usuario y el token que realizan la consulta
+        foreach ($request->user()->tokens()->get() as $tokenapli)
+        {
+            if (hash_equals($tokenapli->token, hash('sha256', $request->bearerToken()))) {
+                $respuesta = [
+                    'usuario' => $request->user()->id,
+                    'id_token' => $tokenapli->id,
+                    'operacion' => 'consultar Cedula CNE'
+                ];
+            }
+        }
+ 
+        $request->user()->registros()->create([
+            'token_id' => $respuesta['id_token'],
+            'operacion' => $respuesta['operacion']
+        ]);
 
         if ($info == false) {
             return response()->json([
@@ -101,6 +137,23 @@ class DitecpController extends Controller
         $conCedulaIvss = new ConsultaCedula();
         $info = $conCedulaIvss->ivssPension($nac, $ci, $d1, $m1, $y1);
 
+        //almacena los datos del usuario y el token que realizan la consulta
+        foreach ($request->user()->tokens()->get() as $tokenapli)
+        {
+            if (hash_equals($tokenapli->token, hash('sha256', $request->bearerToken()))) {
+                $respuesta = [
+                    'usuario' => $request->user()->id,
+                    'id_token' => $tokenapli->id,
+                    'operacion' => 'consultar Pensionado IVSS'
+                ];
+            }
+        }
+ 
+        $request->user()->registros()->create([
+            'token_id' => $respuesta['id_token'],
+            'operacion' => $respuesta['operacion']
+        ]);
+
         if ($info == false) {
             return response()->json([
                 "status" => 404,
@@ -143,6 +196,23 @@ class DitecpController extends Controller
         
         $conCedulaIvss = new ConsultaCedula();
         $info = $conCedulaIvss->cuentaIndividual($nac, $ci, $d, $m, $y);
+
+        //almacena los datos del usuario y el token que realizan la consulta
+        foreach ($request->user()->tokens()->get() as $tokenapli)
+        {
+            if (hash_equals($tokenapli->token, hash('sha256', $request->bearerToken()))) {
+                $respuesta = [
+                    'usuario' => $request->user()->id,
+                    'id_token' => $tokenapli->id,
+                    'operacion' => 'consultar Cuenta Individual IVSS'
+                ];
+            }
+        }
+ 
+        $request->user()->registros()->create([
+            'token_id' => $respuesta['id_token'],
+            'operacion' => $respuesta['operacion']
+        ]);
 
         if ($info == false) {
             return response()->json([

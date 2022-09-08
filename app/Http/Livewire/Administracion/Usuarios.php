@@ -7,6 +7,7 @@ use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\User;
+use App\Models\Registro;
 use Illuminate\Support\Facades\Hash;
 use Mail;
 use App\Mail\NotificacionMailable;
@@ -50,7 +51,9 @@ class Usuarios extends Component
         $tokens = DB::table('personal_access_tokens')->count();
 
         $tokensinfo = DB::table('personal_access_tokens')->orderBy('last_used_at', 'desc')->paginate(5);
-        $tokensinfo2 = DB::table('personal_access_tokens')->orderBy('last_used_at', 'asc')->paginate(5);
+        //$tokensinfo2 = DB::table('personal_access_tokens')->orderBy('last_used_at', 'asc')->paginate(5);
+
+        $registros = Registro::latest()->take(5)->get();
 
         return view('livewire.administracion.usuarios',[
             'usuarios' => $usuarios,
@@ -58,7 +61,7 @@ class Usuarios extends Component
             'users_count' => $users_count,
             'tokens' => $tokens,
             'tokensinfo' => $tokensinfo,
-            'tokensinfo2' => $tokensinfo2
+            'registros' => $registros
         ]);
     }
 
