@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Mail;
 use App\Mail\NotificacionMailable;
+use Illuminate\Support\Facades\DB;
 
 class Usuarios extends Component
 {
@@ -45,10 +46,19 @@ class Usuarios extends Component
         //Numero de Usuarios Totales
         $users_count = User::count();
 
+        //cuenta el total de tokens generados
+        $tokens = DB::table('personal_access_tokens')->count();
+
+        $tokensinfo = DB::table('personal_access_tokens')->orderBy('last_used_at', 'desc')->paginate(5);
+        $tokensinfo2 = DB::table('personal_access_tokens')->orderBy('last_used_at', 'asc')->paginate(5);
+
         return view('livewire.administracion.usuarios',[
             'usuarios' => $usuarios,
             'roles' => $roles,
-            'users_count' => $users_count
+            'users_count' => $users_count,
+            'tokens' => $tokens,
+            'tokensinfo' => $tokensinfo,
+            'tokensinfo2' => $tokensinfo2
         ]);
     }
 

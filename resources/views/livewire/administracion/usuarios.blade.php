@@ -18,7 +18,7 @@
                 </svg>
             </div>
             <div class="text-right">
-                <p class="text-2xl"></p>
+                <p class="text-2xl">{{$tokens}}</p>
                 <p>Tokens Generados</p>
             </div>
         </div>
@@ -45,6 +45,91 @@
                 <p>Tokens Restantes</p>
             </div>
         </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 p-4 gap-4">
+        <!-- ultimas conexiones -->
+        <div class="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words bg-gray-50 dark:bg-gray-800 w-full shadow-lg rounded">
+            <div class="rounded-t mb-0 px-0 border-0">
+                <div class="flex flex-wrap items-center px-4 py-2">
+                    <div class="relative w-full max-w-full flex-grow flex-1">
+                      <h3 class="font-semibold text-base text-gray-900 dark:text-gray-50">Actividades Recientes</h3>
+                    </div>
+                </div>
+                <div class="block w-full overflow-x-auto">
+                    <table class="items-center w-full bg-transparent border-collapse">
+                        <thead>
+                            <tr>
+                              <th class="px-4 bg-gray-100 dark:bg-gray-600 text-gray-500 dark:text-gray-100 align-middle 
+                              border border-solid border-gray-200 dark:border-gray-500 py-3 text-xs uppercase border-l-0 
+                              border-r-0 whitespace-nowrap font-semibold text-left">Nombre</th>
+                              <th class="px-4 bg-gray-100 dark:bg-gray-600 text-gray-500 dark:text-gray-100 align-middle 
+                              border border-solid border-gray-200 dark:border-gray-500 py-3 text-xs uppercase border-l-0 
+                              border-r-0 whitespace-nowrap font-semibold text-left">Actividad</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @foreach ($tokensinfo as $tokensli )
+                                <tr class="text-gray-700 dark:text-gray-100">
+                                    <th class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
+                                        {{$tokensli->name}}
+                                    </th>
+                                    <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                        @if ($tokensli->last_used_at)
+                                            {{$tokensli->last_used_at->diffForHumans()}}
+                                        @else
+                                            <p>No Usado</p>
+                                        @endif
+                                    </td>
+                                </tr>                            
+                            @endforeach                        
+                          </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- /ultimas conexiones -->
+        <!-- ultimos registros -->
+        <div class="relative flex flex-col min-w-0 break-words bg-gray-50 dark:bg-gray-800 w-full shadow-lg rounded">
+            <div class="rounded-t mb-0 px-0 border-0">
+                <div class="flex flex-wrap items-center px-4 py-2">
+                    <div class="relative w-full max-w-full flex-grow flex-1">
+                    <h3 class="font-semibold text-base text-gray-900 dark:text-gray-50">Pasivos</h3>
+                    </div>
+                </div>
+                <div class="block w-full">
+                    <table class="items-center w-full bg-transparent border-collapse">
+                        <thead>
+                            <tr>
+                            <th class="px-4 bg-gray-100 dark:bg-gray-600 text-gray-500 dark:text-gray-100 align-middle 
+                            border border-solid border-gray-200 dark:border-gray-500 py-3 text-xs uppercase border-l-0 
+                            border-r-0 whitespace-nowrap font-semibold text-left">Nombre</th>
+                            <th class="px-4 bg-gray-100 dark:bg-gray-600 text-gray-500 dark:text-gray-100 align-middle 
+                            border border-solid border-gray-200 dark:border-gray-500 py-3 text-xs uppercase border-l-0 
+                            border-r-0 whitespace-nowrap font-semibold text-left">Actividad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($tokensinfo2 as $tokensli2 )
+                                <tr class="text-gray-700 dark:text-gray-100">
+                                    <th class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
+                                        {{$tokensli2->name}}
+                                    </th>
+                                    <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                        @if ($tokensli2->last_used_at)
+                                            {{ $tokensli2->last_used_at->diffForHumans() }}
+                                        @else
+                                            <p>No Usado</p>
+                                        @endif
+                                    </td>
+                                </tr>                            
+                            @endforeach                        
+                        </tbody>
+                    </table>                
+                </div>
+            </div>
+        </div>
+        <!-- /ultimos registros -->
     </div>
     
     <div class="mt-4 mx-4">
