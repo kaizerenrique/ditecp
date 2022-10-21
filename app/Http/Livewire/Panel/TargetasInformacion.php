@@ -3,11 +3,13 @@
 namespace App\Http\Livewire\Panel;
 
 use Livewire\Component;
-use Kaizerenrique\Consultabcv\Consultabcv;
+use App\Traits\OperacionesBCV;
 use App\Models\Registro;
 
 class TargetasInformacion extends Component
 {
+    use OperacionesBCV;
+
     protected $listeners = ['eliminarToken'];    
     public function eliminarToken(){
 
@@ -16,14 +18,7 @@ class TargetasInformacion extends Component
     public function render()
     {
         //consultar Valor BCV
-        $usdconsulta = new Consultabcv();
-        $usd = $usdconsulta->valorbcv();
-
-        if ($usd == false) {            
-            $usd = "Error de conexión.";            
-        } else {
-            $usd = $usd;       
-        }
+        $usd = $this->valordelusd();
 
         //consultar numero de tokens registrados
         $tokensNumero = auth()->user()->tokens()->count();

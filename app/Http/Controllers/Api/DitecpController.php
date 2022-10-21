@@ -4,13 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Kaizerenrique\Consultabcv\Consultabcv;
 use Kaizerenrique\Cedulavenezuela\ConsultaCedula;
 use Illuminate\Support\Facades\Http;
 use App\Models\Registro;
+use App\Traits\OperacionesBCV;
 
 class DitecpController extends Controller
 {    
+    use OperacionesBCV;
+
     /**
     * consultarValorUsd.
     *
@@ -22,8 +24,7 @@ class DitecpController extends Controller
 
     public function consultarValorUsd(Request $request)
     {
-        $usdconsulta = new Consultabcv();
-        $usd = $usdconsulta->valorbcv();       
+        $usd = $this->valordelusd();   
 
         //almacena los datos del usuario y el token que realizan la consulta
         foreach ($request->user()->tokens()->get() as $tokenapli)
