@@ -8,10 +8,12 @@ use Kaizerenrique\Cedulavenezuela\ConsultaCedula;
 use Illuminate\Support\Facades\Http;
 use App\Models\Registro;
 use App\Traits\OperacionesBCV;
+use App\Traits\Whatsapp;
 
 class DitecpController extends Controller
 {    
     use OperacionesBCV;
+    use Whatsapp;
 
     /**
     * consultarValorUsd.
@@ -230,46 +232,13 @@ class DitecpController extends Controller
 
     public function apiwha()
     {
-        $mensaje = "http://qslabsys.com/documentos/QgQBvIbYE7VijwVZJMdS5";
-        $token = 'EAALL22xSKwcBAEvPVqcJMhZBm85EWv49HcWnfnBUGihX7yFROTEMZAHtmM5YNAhCZAqCXdfJPHVZAsxlKwmf8vkm9t5InAkA4LpxZBHhPTxUcEra9WlyFYSMUh8Abh3cTX2kZBnFRI3mLHAfEvJdWyDZCSjIHpSriPu90BRtrHuhmzgZA8nZBAlPZBNyCJmLYwTVk0q6Y8iwreBwZDZD';
+        $mensaje = "Este mensaje es un whatsapp de prueba, por favor no responder a este numero gracias.";
+        $token = 'EAALL22xSKwcBAE6zAEkRntmWkZABG4P1bGOR6SPfR0ZCAdfUPt2tm8ZBv5PZCSldZAytIigjnLaZA96ahdihODk9muDiuZAmAcYS4Wsu3yYGV8fqZBkDu7mczqieAsBPkzWlEyUk4UxvOcpewKHVHqi4shhSJJzgjRaHwMXZAQZAPma30Nqz0P8EHU8Lfn1CO2ZBrZC9YsRZAodastQZDZD';
         $uri = 'https://graph.facebook.com/v13.0/102740705902434/messages';
-        $body = array(
-            'messaging_product' => "whatsapp",
-            'to' => 584249208037,
-            'type' => "template",
-            'template' => array(
-                "name"=> "plantilla_base_03",
-                'language'=> array(
-                    "code"=>"es"
-                ),
-                'components'=> array(
-                    array(
-                        "type" => "header",
-                        "parameters" => array(
-                            array(
-                                "type"=> "document",
-                                "document" => array(
-                                    "filename" => "moWzwHAGXH.pdf",
-                        	        "link" => "https://docs.google.com/viewerng/viewer?url=http://qslabsys.com/storage/moWzwHAGXH.pdf"
-                                )                                
-                            )
-                        )
-                    ),
-                    array(
-                        "type" => "body",
-                        "parameters" => array(
-                            array(
-                                "type"=> "text",
-                                "text"=> $mensaje
-                            )
-                        )
-                    )
-                )
-            )
-        );
+        $telefono = '584129918810';
 
-        $response = Http::withToken($token)->post($uri, $body);
+        $info = $this->enviarmensajebasico($mensaje, $token, $uri, $telefono ); 
 
-        return $response;
+        return $info;
     }
 }
