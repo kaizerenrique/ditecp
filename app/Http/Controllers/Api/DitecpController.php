@@ -230,18 +230,45 @@ class DitecpController extends Controller
 
     public function apiwha()
     {
-        $tokenApi = 'EAAIZBovnnWcQBAJqT07nT6y6VRY81mDQex6JtrCbrZAMBxIiw5XEfJoSCH9isag91qZBiqVAp0bpfch4TDTgtkUOQuDGPW25sRqT7PHIngK3tg4WWEzUJASmi1x5j9uLPJOo5ZBbqlXngn7m4N6uPxcP8KF6iaTq2lSbrs5SMiTAJRA3IvhD3Ao5vFhBW9fAcs8k0cCfLwZDZD';
-        $response = Http::withToken($tokenApi)->accept('application/json')->post('https://graph.facebook.com/v13.0/102740705902434/messages',[
-                'messaging_product' => 'whatsapp',
-                'to' => '584129918810',
-                'type' => 'template',
-                'template' => [
-                    'name' => 'plantilla_base_01',
-                    'language' => [
-                        'code' => 'es'
-                    ]
-                ]
-        ]);
+        $mensaje = "http://qslabsys.com/documentos/QgQBvIbYE7VijwVZJMdS5";
+        $token = 'EAALL22xSKwcBAEvPVqcJMhZBm85EWv49HcWnfnBUGihX7yFROTEMZAHtmM5YNAhCZAqCXdfJPHVZAsxlKwmf8vkm9t5InAkA4LpxZBHhPTxUcEra9WlyFYSMUh8Abh3cTX2kZBnFRI3mLHAfEvJdWyDZCSjIHpSriPu90BRtrHuhmzgZA8nZBAlPZBNyCJmLYwTVk0q6Y8iwreBwZDZD';
+        $uri = 'https://graph.facebook.com/v13.0/102740705902434/messages';
+        $body = array(
+            'messaging_product' => "whatsapp",
+            'to' => 584249208037,
+            'type' => "template",
+            'template' => array(
+                "name"=> "plantilla_base_03",
+                'language'=> array(
+                    "code"=>"es"
+                ),
+                'components'=> array(
+                    array(
+                        "type" => "header",
+                        "parameters" => array(
+                            array(
+                                "type"=> "document",
+                                "document" => array(
+                                    "filename" => "moWzwHAGXH.pdf",
+                        	        "link" => "https://docs.google.com/viewerng/viewer?url=http://qslabsys.com/storage/moWzwHAGXH.pdf"
+                                )                                
+                            )
+                        )
+                    ),
+                    array(
+                        "type" => "body",
+                        "parameters" => array(
+                            array(
+                                "type"=> "text",
+                                "text"=> $mensaje
+                            )
+                        )
+                    )
+                )
+            )
+        );
+
+        $response = Http::withToken($token)->post($uri, $body);
 
         return $response;
     }
