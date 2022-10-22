@@ -30,14 +30,8 @@ class ConsultarValorBcv extends Command
      */
     public function handle()
     {
-        $operacion = $this->consultarelvalordelusd();
-
-        if ($operacion == false) {           
-            return Command::SUCCESS;
-        } else {
-            return Command::SUCCESS; 
-        }        
+        $operacion = $this->consultarelvalordelusd();       
         
-        //return Command::SUCCESS;
+        return Command::SUCCESS;
     }
 }
