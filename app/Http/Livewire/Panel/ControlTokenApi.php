@@ -55,7 +55,7 @@ class ControlTokenApi extends Component
 
     public function borrarToken($id)
     {        
-        $tokenId = $id;
+        $tokenId = $id;        
         auth()->user()->tokens()->where('id', $tokenId )->delete();
         //actualiza la tarjeta de informacion 
         $this->emitTo('panel.targetas-informacion', 'eliminarToken');
@@ -91,7 +91,7 @@ class ControlTokenApi extends Component
         $this->validate();
         
         $nombre = $this->name;
-        $tokenNuevo = auth()->user()->createToken($nombre, ["read","create","update","delete"])->plainTextToken;
+        $tokenNuevo = auth()->user()->createToken($nombre, ["USD","CNE","IVSS"])->plainTextToken;
         $tokenNuevo = explode('|', $tokenNuevo)[1];
         
         $this->agregarToken = false;

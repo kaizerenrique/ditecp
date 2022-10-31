@@ -12,10 +12,11 @@ use Illuminate\Support\Facades\Hash;
 use Mail;
 use App\Mail\NotificacionMailable;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class Usuarios extends Component
 {
-    use WithPagination;
+    use WithPagination;    
 
     public $buscar;
     public $usuario;
@@ -51,7 +52,6 @@ class Usuarios extends Component
         $tokens = DB::table('personal_access_tokens')->count();
 
         $tokensinfo = DB::table('personal_access_tokens')->orderBy('last_used_at', 'desc')->paginate(5);
-        //$tokensinfo2 = DB::table('personal_access_tokens')->orderBy('last_used_at', 'asc')->paginate(5);
 
         $registros = Registro::latest()->take(5)->get();
 
@@ -91,8 +91,8 @@ class Usuarios extends Component
         $this->validate();
 
         //genera una contraseña de 8 caracteres de forma randon
-        //$password = Str::random(8);
-        $password = '12345678';
+        $password = Str::random(8);
+        //$password = '12345678';
         $limite = $this->token;
 
         $usuario = User::create([
