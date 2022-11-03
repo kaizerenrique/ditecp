@@ -28,34 +28,41 @@ class DitecpController extends Controller
     {
         $usd = $this->valordelusd();   
 
-        //almacena los datos del usuario y el token que realizan la consulta
-        foreach ($request->user()->tokens()->get() as $tokenapli)
-        {
-            if (hash_equals($tokenapli->token, hash('sha256', $request->bearerToken()))) {
-                $respuesta = [
-                    'usuario' => $request->user()->id,
-                    'id_token' => $tokenapli->id,
-                    'operacion' => 'consultar USD'
-                ];
+        if ($request->user()->tokenCan('USD')) {
+            //almacena los datos del usuario y el token que realizan la consulta
+            foreach ($request->user()->tokens()->get() as $tokenapli)
+            {
+                if (hash_equals($tokenapli->token, hash('sha256', $request->bearerToken()))) {
+                    $respuesta = [
+                        'usuario' => $request->user()->id,
+                        'id_token' => $tokenapli->id,
+                        'operacion' => 'consultar USD'
+                    ];
+                }
             }
-        }
 
-        $request->user()->registros()->create([
-            'token_id' => $respuesta['id_token'],
-            'operacion' => $respuesta['operacion']
-        ]);
+            $request->user()->registros()->create([
+                'token_id' => $respuesta['id_token'],
+                'operacion' => $respuesta['operacion']
+            ]);
 
-        if ($usd == false) {
-            return response()->json([
-                "status" => 404,
-                "usd" => "Error de conexión fuente no encontrada."
-            ]); 
+            if ($usd == false) {
+                return response()->json([
+                    "status" => 404,
+                    "usd" => "Error de conexión fuente no encontrada."
+                ]); 
+            } else {
+                return response()->json([
+                    "status" => 200,
+                    "usd" => $usd
+                ]);            
+            } 
         } else {
             return response()->json([
-                "status" => 200,
-                "usd" => $usd
-            ]);            
-        } 
+                "status" => 401,
+                "info" => "Acción no Autorizada"
+            ]);
+        }
         
     }
 
@@ -69,43 +76,51 @@ class DitecpController extends Controller
     
     public function consultarCedulaCne(Request $request)
     {
-        $request->validate([
-            'nac' => 'required|string',
-            'ci' => 'required|numeric',
-        ]);
-
-        $nac = $request->nac;
-        $ci = $request->ci;
-
-        $conCedulaCne = new ConsultaCedula();
-        $info = $conCedulaCne->consultar($nac, $ci);
-
-        //almacena los datos del usuario y el token que realizan la consulta
-        foreach ($request->user()->tokens()->get() as $tokenapli)
-        {
-            if (hash_equals($tokenapli->token, hash('sha256', $request->bearerToken()))) {
-                $respuesta = [
-                    'usuario' => $request->user()->id,
-                    'id_token' => $tokenapli->id,
-                    'operacion' => 'consultar Cedula CNE'
-                ];
-            }
-        }
- 
-        $request->user()->registros()->create([
-            'token_id' => $respuesta['id_token'],
-            'operacion' => $respuesta['operacion']
-        ]);
-
-        if ($info == false) {
-            return response()->json([
-                "status" => 404,
-                "info" => "Error de conexión fuente no encontrada."
+        if ($request->user()->tokenCan('CNE')) {
+            $request->validate([
+                'nac' => 'required|string',
+                'ci' => 'required|numeric',
             ]);
+    
+            $nac = $request->nac;
+            $ci = $request->ci;
+    
+            $conCedulaCne = new ConsultaCedula();
+            $info = $conCedulaCne->consultar($nac, $ci);
+    
+            //almacena los datos del usuario y el token que realizan la consulta
+            foreach ($request->user()->tokens()->get() as $tokenapli)
+            {
+                if (hash_equals($tokenapli->token, hash('sha256', $request->bearerToken()))) {
+                    $respuesta = [
+                        'usuario' => $request->user()->id,
+                        'id_token' => $tokenapli->id,
+                        'operacion' => 'consultar Cedula CNE'
+                    ];
+                }
+            }
+     
+            $request->user()->registros()->create([
+                'token_id' => $respuesta['id_token'],
+                'operacion' => $respuesta['operacion']
+            ]);
+    
+            if ($info == false) {
+                return response()->json([
+                    "status" => 404,
+                    "info" => "Error de conexión fuente no encontrada."
+                ]);
+            } else {
+                return response()->json([
+                    "status" => 200,
+                    "info" => $info
+                ]);
+            }
+
         } else {
             return response()->json([
-                "status" => 200,
-                "info" => $info
+                "status" => 401,
+                "info" => "Acción no Autorizada"
             ]);
         }        
     }
@@ -123,49 +138,57 @@ class DitecpController extends Controller
 
     public function consultaIvssPensionado(Request $request)
     {
-        $request->validate([
-            'nac' => 'required|string',
-            'ci' => 'required|numeric',
-            'd1' => 'required|numeric',
-            'm1' => 'required|numeric',
-            'y1' => 'required|numeric',
-        ]);
-
-        $nac = $request->nac;
-        $ci = $request->ci;
-        $d1 = $request->d1;
-        $m1 = $request->m1;
-        $y1 = $request->y1;
-
-        $conCedulaIvss = new ConsultaCedula();
-        $info = $conCedulaIvss->ivssPension($nac, $ci, $d1, $m1, $y1);
-
-        //almacena los datos del usuario y el token que realizan la consulta
-        foreach ($request->user()->tokens()->get() as $tokenapli)
-        {
-            if (hash_equals($tokenapli->token, hash('sha256', $request->bearerToken()))) {
-                $respuesta = [
-                    'usuario' => $request->user()->id,
-                    'id_token' => $tokenapli->id,
-                    'operacion' => 'consultar Pensionado IVSS'
-                ];
-            }
-        }
- 
-        $request->user()->registros()->create([
-            'token_id' => $respuesta['id_token'],
-            'operacion' => $respuesta['operacion']
-        ]);
-
-        if ($info == false) {
-            return response()->json([
-                "status" => 404,
-                "info" => "Error de conexión fuente no encontrada."
+        if ($request->user()->tokenCan('IVSS')) {
+            $request->validate([
+                'nac' => 'required|string',
+                'ci' => 'required|numeric',
+                'd1' => 'required|numeric',
+                'm1' => 'required|numeric',
+                'y1' => 'required|numeric',
             ]);
+    
+            $nac = $request->nac;
+            $ci = $request->ci;
+            $d1 = $request->d1;
+            $m1 = $request->m1;
+            $y1 = $request->y1;
+    
+            $conCedulaIvss = new ConsultaCedula();
+            $info = $conCedulaIvss->ivssPension($nac, $ci, $d1, $m1, $y1);
+    
+            //almacena los datos del usuario y el token que realizan la consulta
+            foreach ($request->user()->tokens()->get() as $tokenapli)
+            {
+                if (hash_equals($tokenapli->token, hash('sha256', $request->bearerToken()))) {
+                    $respuesta = [
+                        'usuario' => $request->user()->id,
+                        'id_token' => $tokenapli->id,
+                        'operacion' => 'consultar Pensionado IVSS'
+                    ];
+                }
+            }
+     
+            $request->user()->registros()->create([
+                'token_id' => $respuesta['id_token'],
+                'operacion' => $respuesta['operacion']
+            ]);
+    
+            if ($info == false) {
+                return response()->json([
+                    "status" => 404,
+                    "info" => "Error de conexión fuente no encontrada."
+                ]);
+            } else {
+                return response()->json([
+                    "status" => 200,
+                    "info" => $info
+                ]);
+            }
+
         } else {
             return response()->json([
-                "status" => 200,
-                "info" => $info
+                "status" => 401,
+                "info" => "Acción no Autorizada"
             ]);
         }
     }
@@ -183,62 +206,93 @@ class DitecpController extends Controller
 
     public function consultarCuentaIndividualIvss(Request $request)
     {
-        $request->validate([
-            'nac' => 'required|string',
-            'ci' => 'required|numeric',
-            'd' => 'required|numeric',
-            'm' => 'required|numeric',
-            'y' => 'required|numeric',
-        ]);
-
-        $nac = $request->nac;
-        $ci = $request->ci;
-        $d = $request->d;
-        $m = $request->m;
-        $y = $request->y;
-        
-        $conCedulaIvss = new ConsultaCedula();
-        $info = $conCedulaIvss->cuentaIndividual($nac, $ci, $d, $m, $y);
-
-        //almacena los datos del usuario y el token que realizan la consulta
-        foreach ($request->user()->tokens()->get() as $tokenapli)
-        {
-            if (hash_equals($tokenapli->token, hash('sha256', $request->bearerToken()))) {
-                $respuesta = [
-                    'usuario' => $request->user()->id,
-                    'id_token' => $tokenapli->id,
-                    'operacion' => 'consultar Cuenta Individual IVSS'
-                ];
-            }
-        }
- 
-        $request->user()->registros()->create([
-            'token_id' => $respuesta['id_token'],
-            'operacion' => $respuesta['operacion']
-        ]);
-
-        if ($info == false) {
-            return response()->json([
-                "status" => 404,
-                "info" => "Error de conexión fuente no encontrada."
+        if ($request->user()->tokenCan('IVSS')) {
+            $request->validate([
+                'nac' => 'required|string',
+                'ci' => 'required|numeric',
+                'd' => 'required|numeric',
+                'm' => 'required|numeric',
+                'y' => 'required|numeric',
             ]);
+    
+            $nac = $request->nac;
+            $ci = $request->ci;
+            $d = $request->d;
+            $m = $request->m;
+            $y = $request->y;
+            
+            $conCedulaIvss = new ConsultaCedula();
+            $info = $conCedulaIvss->cuentaIndividual($nac, $ci, $d, $m, $y);
+    
+            //almacena los datos del usuario y el token que realizan la consulta
+            foreach ($request->user()->tokens()->get() as $tokenapli)
+            {
+                if (hash_equals($tokenapli->token, hash('sha256', $request->bearerToken()))) {
+                    $respuesta = [
+                        'usuario' => $request->user()->id,
+                        'id_token' => $tokenapli->id,
+                        'operacion' => 'consultar Cuenta Individual IVSS'
+                    ];
+                }
+            }
+     
+            $request->user()->registros()->create([
+                'token_id' => $respuesta['id_token'],
+                'operacion' => $respuesta['operacion']
+            ]);
+    
+            if ($info == false) {
+                return response()->json([
+                    "status" => 404,
+                    "info" => "Error de conexión fuente no encontrada."
+                ]);
+            } else {
+                return response()->json([
+                    "status" => 200,
+                    "info" => $info
+                ]);
+            }
         } else {
             return response()->json([
-                "status" => 200,
-                "info" => $info
+                "status" => 401,
+                "info" => "Acción no Autorizada"
             ]);
         }
+        
     }
 
-    public function apiwha()
+    public function apiwha(Request $request)
     {
-        $mensaje = "Este mensaje es un whatsapp de prueba, por favor no responder a este numero gracias.";
-        $token = 'EAALL22xSKwcBAE6zAEkRntmWkZABG4P1bGOR6SPfR0ZCAdfUPt2tm8ZBv5PZCSldZAytIigjnLaZA96ahdihODk9muDiuZAmAcYS4Wsu3yYGV8fqZBkDu7mczqieAsBPkzWlEyUk4UxvOcpewKHVHqi4shhSJJzgjRaHwMXZAQZAPma30Nqz0P8EHU8Lfn1CO2ZBrZC9YsRZAodastQZDZD';
-        $uri = 'https://graph.facebook.com/v13.0/102740705902434/messages';
-        $telefono = '584129918810';
+        if ($request->user()->tokenCan('WhatsApp')) {
+            
+            $request->validate([
+                'mensaje' => 'required|string',
+                'telefono' => 'required|numeric',
+                'documento' => 'string|nullable',
+                'nombre' => 'string|nullable',
+            ]);
 
-        $info = $this->enviarmensajebasico($mensaje, $token, $uri, $telefono ); 
+            $mensaje = $request->mensaje;
+            $token = 'EAALL22xSKwcBAJRJkgcZB7ChsjC2ZBgZAnYxCLAFgafJolH6wY3TmKdyaBzVjnHi1EIZBeTtww0dHQv6kJvbGWZBpDsMyhTSpiUgxpIyHKKPR1tNjjf72C0J7pTABH83PL1K6lYt2vQPGIWetXFE9fl9XL9LlFJ9O864ohLpEuGuPA0AYhRQexsH7ZBJu4AccmzMFVftT0ogZDZD';
+            $uri = 'https://graph.facebook.com/v13.0/102740705902434/messages';
+            $telefono = $request->telefono;
+            $documento = $request->documento;
+            $nombre = $request->nombre;
 
-        return $info;
+            if ($request->documento == null) {
+                $text = "plantilla_base_04";
+                $info = $this->enviarmensajebasico($text, $mensaje, $token, $uri, $telefono); 
+            } else {
+                $documen = "plantilla_base_03";
+                $info = $this->enviomensajepdf($documen, $mensaje, $token, $uri, $telefono, $documento, $nombre); 
+            } 
+            return $info;
+        } else {
+            return response()->json([
+                "status" => 401,
+                "info" => "Acción no Autorizada"
+            ]);
+        }
+        
     }
 }
