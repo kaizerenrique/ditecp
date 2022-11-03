@@ -5,14 +5,14 @@ use Illuminate\Support\Facades\Http;
 
 trait Whatsapp {
 
-    public function enviarmensajebasico($mensaje, $token, $uri, $telefono)
+    public function enviarmensajebasico($plantilla, $mensaje, $token, $uri, $telefono)
     {
         $body = array(
             'messaging_product' => "whatsapp",
             'to' => $telefono,
             'type' => "template",
             'template' => array(
-                "name"=> "plantilla_base_04",
+                "name"=> $plantilla,
                 'language'=> array(
                     "code"=>"es"
                 ),
@@ -34,14 +34,14 @@ trait Whatsapp {
         return $response;
     }
 
-    public function enviomensajepdf($mensaje, $token, $uri, $telefono)
+    public function enviomensajepdf($plantilla, $mensaje, $token, $uri, $telefono, $documento, $nombre)
     {
         $body = array(
             'messaging_product' => "whatsapp",
             'to' => $telefono,
             'type' => "template",
             'template' => array(
-                "name"=> "plantilla_base_03",
+                "name"=> $plantilla,
                 'language'=> array(
                     "code"=>"es"
                 ),
@@ -52,8 +52,8 @@ trait Whatsapp {
                             array(
                                 "type"=> "document",
                                 "document" => array(
-                                    "filename" => "moWzwHAGXH.pdf",
-                        	        "link" => "https://docs.google.com/viewerng/viewer?url=http://qslabsys.com/storage/moWzwHAGXH.pdf"
+                                    "filename" => $nombre,
+                        	        "link" => $documento
                                 )                                
                             )
                         )
