@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Livewire\Administracion\Perfiles;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,3 +32,6 @@ Route::middleware([
 Route::middleware(['auth:sanctum', 'verified'])->get('administracion/usuarios', function () {
     return view('administracion/usuarios');
 })->name('usuarios');
+
+//ruta del perfil del usuario
+Route::middleware(['auth:sanctum', 'verified'])->get('administracion/usuarios/{id}', Perfiles::class)->name('perfiles');
