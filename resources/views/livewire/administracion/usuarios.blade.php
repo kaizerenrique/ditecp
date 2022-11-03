@@ -187,7 +187,9 @@
                                     <img class="h-10 w-10 rounded-full object-cover" src="{{ $usuario->profile_photo_url }}" alt="{{ $usuario->name }}" />
                                 </td>
                                 <td class="px-4 py-3">
-                                    {{$usuario->name}}
+                                    <a href="{{route('perfiles',$usuario->id)}}">
+                                        {{$usuario->name}}
+                                    </a>                                    
                                 </td>
                                 <td class="px-4 py-3">
                                     {{$usuario->email}}
