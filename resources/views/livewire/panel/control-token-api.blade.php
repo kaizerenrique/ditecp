@@ -22,6 +22,7 @@
                         <th class="px-4 py-3">Nombre</th>
                         <th class="px-4 py-3">Fecha de Registro</th>
                         <th class="px-4 py-3">Ultima Actividad</th>
+                        <th class="px-4 py-3">Vencimiento</th>
                         <th class="px-4 py-3">Acciones</th>
                     </tr>
                 </thead>
@@ -39,6 +40,13 @@
                                     {{ $token->last_used_at->diffForHumans()}}
                                 @else
                                     <p>No Usado</p>
+                                @endif
+                            </td>
+                            <td class="px-4 py-3">
+                                @if ($token->last_used_at)
+                                    {{ $token->last_used_at->diffForHumans()}}
+                                @else
+                                    <p>No Definido</p>
                                 @endif
                             </td>
                             <td class="px-4 py-3">                              
