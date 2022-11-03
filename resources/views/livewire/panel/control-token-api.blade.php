@@ -23,6 +23,7 @@
                         <th class="px-4 py-3">Fecha de Registro</th>
                         <th class="px-4 py-3">Ultima Actividad</th>
                         <th class="px-4 py-3">Vencimiento</th>
+                        <th class="px-4 py-3">Atributos</th>
                         <th class="px-4 py-3">Acciones</th>
                     </tr>
                 </thead>
@@ -48,6 +49,11 @@
                                 @else
                                     <p>No Definido</p>
                                 @endif
+                            </td>
+                            <td class="px-4 py-3">
+                                @foreach ($token->abilities as $abilitie)                                    
+                                    {{$abilitie}}                                    
+                                @endforeach                                
                             </td>
                             <td class="px-4 py-3">                              
                                 <button class="bg-blue-500 dark:bg-red-700 text-white active:bg-blue-600 dark:text-red-200 
