@@ -34,4 +34,10 @@ class Perfiles extends Component
             'tokens' => $tokens,
         ]);
     }
+
+    //Actualizar tabla para corregir falla de busqueda
+    public function updatingBuscar()
+    {
+        $this->resetPage();
+    }
 }
