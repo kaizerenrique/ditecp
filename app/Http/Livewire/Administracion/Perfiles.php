@@ -3,10 +3,13 @@
 namespace App\Http\Livewire\Administracion;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use App\Models\User;
 
 class Perfiles extends Component
 {
+    use WithPagination;  
+    
     public function mount($id)
     {
         $this->usuario = User::find($id);
