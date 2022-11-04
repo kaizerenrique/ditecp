@@ -24,6 +24,14 @@
                             </x-jet-nav-link>
                         </div>                        
                     @endif
+
+                    @if (auth()->user()->can('MenuAdministracion'))
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-jet-nav-link href="{{ route('servicios') }}" :active="request()->routeIs('servicios')" class="text-gray-300 hover:text-white">
+                                {{ __('Servicios') }}
+                            </x-jet-nav-link>
+                        </div>                        
+                    @endif
                     
                 </div>
 
@@ -153,6 +161,14 @@
                 <div class="pt-2 pb-3 space-y-1">
                     <x-jet-responsive-nav-link href="{{ route('usuarios') }}" :active="request()->routeIs('usuarios')" class="bg-gray-900 text-gray-300 hover:text-white">
                         {{ __('Usuarios') }}
+                    </x-jet-responsive-nav-link>
+                </div>
+            @endif
+
+            @if (auth()->user()->can('MenuAdministracion'))
+                <div class="pt-2 pb-3 space-y-1">
+                    <x-jet-responsive-nav-link href="{{ route('servicios') }}" :active="request()->routeIs('servicios')" class="bg-gray-900 text-gray-300 hover:text-white">
+                        {{ __('Servicios') }}
                     </x-jet-responsive-nav-link>
                 </div>
             @endif
