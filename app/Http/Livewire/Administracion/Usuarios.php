@@ -13,6 +13,8 @@ use Mail;
 use App\Mail\NotificacionMailable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use PhpParser\Node\Expr\FuncCall;
+use App\Models\Servicio;
 
 class Usuarios extends Component
 {
@@ -27,10 +29,14 @@ class Usuarios extends Component
     public $identificador;
     public $titulo;
     public $mensaje;
+    public $servicio;
+    public $fecha;
 
     public $modalAgregarUsuario = false;
     public $modalBorrarUsuario = false;
     public $modalMensaje = false;
+
+    public $modalServicio = false;
 
     protected $queryString = [
         'buscar' => ['except' => '']
@@ -55,13 +61,16 @@ class Usuarios extends Component
 
         $registros = Registro::latest()->take(5)->get();
 
+        $servicios = Servicio::all();
+
         return view('livewire.administracion.usuarios',[
             'usuarios' => $usuarios,
             'roles' => $roles,
             'users_count' => $users_count,
             'tokens' => $tokens,
             'tokensinfo' => $tokensinfo,
-            'registros' => $registros
+            'registros' => $registros,
+            'servicios' => $servicios
         ]);
     }
 
@@ -143,5 +152,26 @@ class Usuarios extends Component
         $resul = User::find($id);
         $resul->tokens()->delete();
         $resul->delete();
+    }
+
+    public function servicioadd($id)
+    {
+        $usuarioId = $id;
+        $usuario = User::find($id); 
+
+        $this->ide = $usuario->id;
+
+        $this->modalServicio = true;
+    }
+
+    public function guardarservicio()
+    {
+        $resul = $this->validate([
+            'ide' => 'required',
+            'servicio' => 'required',
+            'fecha' => 'date'
+        ]);
+
+        dd($resul);
     }
 }

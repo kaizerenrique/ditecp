@@ -1,5 +1,5 @@
 <div>
-    <div class="grid grid-cols-1 lg:grid-cols-2 p-4 gap-4">
+    <div class="grid grid-cols-1 lg:grid-cols-3 p-4 gap-4">
         <!-- informacion de perfil -->
         <div class="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words bg-gray-50 dark:bg-gray-800 w-full shadow-lg rounded">
             <div class="relative max-w-md mx-auto md:max-w-2xl mt-6 min-w-0 break-words w-full mb-6 mt-10 p-4 ">
@@ -89,6 +89,11 @@
             </div>
         </div>
         <!-- /ultimos registros -->
+        <!-- servicios -->
+        <div class="relative flex flex-col min-w-0 break-words bg-gray-50 dark:bg-gray-800 w-full shadow-lg rounded">
+            
+        </div>
+        <!-- /servicios -->
     </div>
     <div class="flex flex-wrap items-center px-4 py-2">
         <div class="relative w-full max-w-full flex-grow flex-1">

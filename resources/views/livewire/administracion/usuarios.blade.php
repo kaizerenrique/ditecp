@@ -224,6 +224,12 @@
                                     @endif
                                 </td>
                                 <td class="px-4 py-3">
+
+                                    <button class="bg-blue-500 dark:bg-gray-100 text-white active:bg-blue-600 dark:text-gray-800 dark:active:text-gray-700 text-xs 
+                                    font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" 
+                                        type="button" wire:click="servicioadd({{$usuario->id}})">Servicio
+                                    </button> 
+
                                     <button class="bg-blue-500 dark:bg-gray-100 text-white active:bg-blue-600 dark:text-gray-800 dark:active:text-gray-700 text-xs 
                                     font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" 
                                         type="button" >Editar
@@ -333,4 +339,47 @@
     </x-slot>
 </x-jet-dialog-modal>
 <!-- Fin del Modal para mensajes alertas -->
+
+<!-- Inicio del Modal para servicios-->
+<x-jet-dialog-modal wire:model="modalServicio">
+    <x-slot name="title">
+        
+    </x-slot>
+    <x-slot name="content">
+
+        <div class="flex flex-col">            
+            <x-jet-input id="ide" type="hidden" class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 
+            dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none" wire:model.defer="ide"/>                                                   
+        </div>
+
+        <div class="flex flex-col mt-2">
+            <x-jet-label for="servicio" class="bg-gray-100 dark:bg-gray-700 dark:text-white" value="{{ __('Servicio') }}" />
+            <select name="servicio" id="servicio" wire:model.defer="servicio" class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 
+            dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none">
+                <option value="" selected>Seleccionar Servicio</option>
+                @foreach ($servicios as $servicio)                            
+                    <option value="{{ $servicio->id }}">{{ $servicio->nombre}}</option>                            
+                @endforeach                        
+            </select>
+        </div> 
+
+        <div class="flex flex-col">
+            <x-jet-label for="fecha" class="bg-gray-100 dark:bg-gray-700 dark:text-white" value="{{ __('Fecha') }}" />
+            <x-jet-input id="fecha" type="date" class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 
+            dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none" wire:model.defer="fecha"/>
+            <x-jet-input-error for="fecha" class="mt-2 bg-gray-100 dark:bg-gray-700 dark:text-white" />                                                     
+        </div>
+
+    </x-slot>
+
+    <x-slot name="footer">            
+        <x-jet-secondary-button wire:click="$toggle('modalServicio', false)" wire:loading.attr="disabled">
+            {{ __('Cerrar') }}
+        </x-jet-secondary-button>
+        <x-jet-danger-button class="ml-3" wire:click="guardarservicio()" wire:loading.attr="disabled">
+            {{ __('Guardar') }}
+        </x-jet-danger-button>
+    </x-slot>
+</x-jet-dialog-modal>
+<!-- Fin del Modal para mensajes servicios -->
 </div>

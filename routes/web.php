@@ -35,3 +35,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('administracion/usuarios', 
 
 //ruta del perfil del usuario
 Route::middleware(['auth:sanctum', 'verified'])->get('administracion/usuarios/{id}', Perfiles::class)->name('perfiles');
+
+//ruta de servicios
+Route::middleware(['auth:sanctum', 'verified'])->get('administracion/servicios', function () {
+    return view('administracion/servicios');
+})->name('servicios');
