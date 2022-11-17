@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Administracion;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class Perfiles extends Component
 {
@@ -16,6 +17,11 @@ class Perfiles extends Component
     }
 
     public $buscar;
+    public $eliminatoken = false;
+    public $modalMensaje = false;
+    public $identificador;
+    public $titulo;
+    public $mensaje;
 
     protected $queryString = [
         'buscar' => ['except' => '']
@@ -42,5 +48,25 @@ class Perfiles extends Component
     public function updatingBuscar()
     {
         $this->resetPage();
+    }
+
+    public function eliminarToken($id)
+    {       
+        $tokenId = $id;   
+
+        $this->mensaje = 'Esta Seguro de querer Eliminar el token, una vez eliminado no puede ser recuperado.';
+        $this->identificador = $tokenId;
+        $this->eliminatoken = true;
+
+    }
+
+    public function borrarToken($id)
+    {        
+        $tokenId = $id;        
+        //auth()->user()->tokens()->where('id', $tokenId )->delete();
+        
+        $tokens = DB::table('personal_access_tokens')->where('id', $tokenId )->delete();
+
+        $this->eliminatoken = false;
     }
 }

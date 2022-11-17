@@ -121,6 +121,7 @@
                             <th class="px-4 py-3">Fecha de Registro</th>
                             <th class="px-4 py-3">Ultima Actividad</th>
                             <th class="px-4 py-3">Vencimiento</th>
+                            <th class="px-4 py-3">Atributos</th>
                             <th class="px-4 py-3">Acciones</th>
                         </tr>
                     </thead>
@@ -128,7 +129,9 @@
                         @foreach ($tokens as $token)
                             <tr class="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400">
                                 <td class="px-4 py-3">
-                                    {{$token->name}}
+                                    <a href="{{route('informaciontoken',$token->id)}}">
+                                        {{$token->name}}
+                                    </a>
                                 </td>
                                 <td class="px-4 py-3">
                                     {{$token->created_at}}
@@ -147,11 +150,16 @@
                                         <p>No Definido</p>
                                     @endif
                                 </td>
+                                <td class="px-4 py-3">
+                                    @foreach ($token->abilities as $abilitie)                                    
+                                        {{$abilitie}}                                    
+                                    @endforeach                                
+                                </td>
                                 <td class="px-4 py-3">                              
                                     <button class="bg-blue-500 dark:bg-red-700 text-white active:bg-blue-600 dark:text-red-200 
                                         dark:active:text-red-100 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 
                                         ease-linear transition-all duration-150" 
-                                        type="button" wire:click="eliminarToken({{ $token->id }})">Eliminar
+                                        type="button" wire:click="eliminarToken({{$token->id}})">Eliminar
                                     </button>
                                 </td>
                                 
@@ -169,4 +177,41 @@
         </div>
     </div>    
 <!-- \tabla -->
+
+<!-- Inicio del Modal para Eliminar token -->
+<x-jet-dialog-modal wire:model="eliminatoken">
+    <x-slot name="title">
+        {{ __('Borrar Token') }}
+    </x-slot>
+    <x-slot name="content">             
+        {{$mensaje}}
+    </x-slot>
+
+    <x-slot name="footer">            
+        <x-jet-secondary-button wire:click="$toggle('eliminatoken', false)" wire:loading.attr="disabled">
+            {{ __('Cerrar') }}
+        </x-jet-secondary-button>
+        <x-jet-danger-button class="ml-3" wire:click="borrarToken({{$identificador}})" wire:loading.attr="disabled">
+            {{ __('Eliminar') }}
+        </x-jet-danger-button>
+    </x-slot>
+</x-jet-dialog-modal>
+<!-- Fin del Modal para Eliminar token -->
+
+<!-- Inicio del Modal para mensajes alertas-->
+<x-jet-dialog-modal wire:model="modalMensaje">
+    <x-slot name="title">
+        {{ $titulo }}
+    </x-slot>
+    <x-slot name="content">             
+        {{$mensaje}}
+    </x-slot>
+
+    <x-slot name="footer">            
+        <x-jet-secondary-button wire:click="$toggle('modalMensaje', false)" wire:loading.attr="disabled">
+            {{ __('Cerrar') }}
+        </x-jet-secondary-button>
+    </x-slot>
+</x-jet-dialog-modal>
+<!-- Fin del Modal para mensajes alertas -->
 </div>

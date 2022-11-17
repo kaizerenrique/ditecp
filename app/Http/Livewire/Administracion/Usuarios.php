@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use PhpParser\Node\Expr\FuncCall;
 use App\Models\Servicio;
+use App\Models\Infoservicios;
 
 class Usuarios extends Component
 {
@@ -172,6 +173,12 @@ class Usuarios extends Component
             'fecha' => 'date'
         ]);
 
-        dd($resul);
+        $info = Infoservicios::create([
+            'user_id' => $resul['ide'],
+            'servicio_id' => $resul['servicio'],
+            'date' => $resul['fecha']
+        ]);
+
+        $this->modalServicio = false;
     }
 }

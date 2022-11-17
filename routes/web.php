@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Livewire\Administracion\Perfiles;
+use App\Http\Livewire\Administracion\TokenInfo;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,6 +36,9 @@ Route::middleware(['auth:sanctum', 'verified'])->get('administracion/usuarios', 
 
 //ruta del perfil del usuario
 Route::middleware(['auth:sanctum', 'verified'])->get('administracion/usuarios/{id}', Perfiles::class)->name('perfiles');
+
+//ruta de la informacion detallada del token
+Route::middleware(['auth:sanctum', 'verified'])->get('administracion/tokeninfo/{id}', TokenInfo::class)->name('informaciontoken');
 
 //ruta de servicios
 Route::middleware(['auth:sanctum', 'verified'])->get('administracion/servicios', function () {
