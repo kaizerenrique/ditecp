@@ -172,7 +172,7 @@
                                         @if ($abilitie == 'WhatsApp' )
                                             <button class="bg-blue-500 dark:bg-gray-100 text-white active:bg-blue-600 dark:text-gray-800 dark:active:text-gray-700 text-xs 
                                             font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" 
-                                                type="button" >Configuración
+                                                type="button" wire:click="agregarWhatsApp({{$token->id}})" >Configuración
                                             </button>
                                         @endif                                   
                                     @endforeach 
@@ -247,10 +247,10 @@
                 <x-jet-input-error for="name" class="mt-2 bg-gray-100 dark:bg-gray-700 dark:text-white" />                                                     
             </div>
             <div class="flex flex-col mt-2">
-                <x-jet-label for="rol" class="bg-gray-100 dark:bg-gray-700 dark:text-white" value="{{ __('Rol') }}" />
+                <x-jet-label for="rol" class="bg-gray-100 dark:bg-gray-700 dark:text-white" value="{{ __('Configuración') }}" />
                 <select name="abilities" id="abilities" wire:model.defer="abilities" class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 
                 dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none">
-                    <option value="" selected>Seleccionar Rol</option>
+                    <option value="" selected>Seleccionar Configuración</option>
                     @foreach ($listadeatributos as $lista)                            
                         <option value="{{ $lista['id'] }}">{{ $lista['atributo'] }}</option>                            
                     @endforeach                                           
@@ -268,4 +268,59 @@
         </x-slot>
     </x-jet-dialog-modal>
     <!-- Editar token -->
+
+        <!-- Editar token -->
+        <x-jet-dialog-modal wire:model="agregarconfigWhatsAppModal">
+            <x-slot name="title">
+                {{ $titulo }}
+            </x-slot>
+            <x-slot name="content">
+                <div class="flex flex-col">
+                    <x-jet-input id="usuario_id" type="hidden" class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 
+                    dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none" wire:model.defer="usuario_id"/>
+                                                                     
+                </div>       
+                <div class="flex flex-col">
+                    <x-jet-input id="tokenapid" type="hidden" class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 
+                    dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none" wire:model.defer="tokenapid"/>
+                                                                     
+                </div> 
+
+                <div class="flex flex-col mt-2">
+                    <x-jet-label for="rol" class="bg-gray-100 dark:bg-gray-700 dark:text-white" value="{{ __('Elegir Servicio ') }}" />
+                    <select name="servicios_id" id="servicios_id" wire:model.defer="servicios_id" class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 
+                    dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none">
+                        <option value="" selected>Elegir Servicio </option>
+                        @foreach ($servicios as $servicio)                            
+                            <option value="{{$servicio->id}}">{{ $servicio->nombre }}</option>                            
+                        @endforeach                                           
+                    </select>
+                </div>                 
+                
+                <div class="flex flex-col">
+                    <x-jet-label for="token" class="bg-gray-100 dark:bg-gray-700 dark:text-white" value="{{ __('Token de WhatsApp') }}" />
+                    <x-jet-input id="token" type="text" class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 
+                    dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none" wire:model.defer="token"/>
+                    <x-jet-input-error for="token" class="mt-2 bg-gray-100 dark:bg-gray-700 dark:text-white" />                                                     
+                </div>
+
+                <div class="flex flex-col">
+                    <x-jet-label for="uri" class="bg-gray-100 dark:bg-gray-700 dark:text-white" value="{{ __('URI de WhatsApp') }}" />
+                    <x-jet-input id="uri" type="text" class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 
+                    dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none" wire:model.defer="uri"/>
+                    <x-jet-input-error for="uri" class="mt-2 bg-gray-100 dark:bg-gray-700 dark:text-white" />                                                     
+                </div>
+                          
+            </x-slot>
+    
+            <x-slot name="footer">            
+                <x-jet-secondary-button wire:click="$toggle('agregarconfigWhatsAppModal', false)" wire:loading.attr="disabled">
+                    {{ __('Cerrar') }}
+                </x-jet-secondary-button>
+                <x-jet-danger-button class="ml-3" wire:click="guardarconfigWhatsApp()" wire:loading.attr="disabled">
+                    {{ __('Guardar') }}
+                </x-jet-danger-button>
+            </x-slot>
+        </x-jet-dialog-modal>
+        <!-- Editar token -->
 </div>

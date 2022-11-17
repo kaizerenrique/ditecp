@@ -6,6 +6,9 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use App\Models\Servicio;
+use App\Models\Infoservicios;
+use App\Models\Configwhatsapp;
 
 class Perfiles extends Component
 {
@@ -31,6 +34,9 @@ class Perfiles extends Component
         '3' => ['id' => 3, 'atributo' => '["Desactivado"]'],
     );
 
+    public $agregarconfigWhatsAppModal = false;
+    public $usuario_id, $servicios_id, $tokenapid, $token, $uri;
+
     protected $queryString = [
         'buscar' => ['except' => '']
     ];
@@ -44,11 +50,14 @@ class Perfiles extends Component
 
         // obtener la lista de tokens de un usuario y ordenar por tiempo de actualizacion
         $tokens = $usuario->tokens()->where('name', 'like', '%'.$this->buscar . '%')->orderBy('last_used_at', 'desc')->paginate(5);
+
+        $servicios = Servicio::all();
         
         return view('livewire.administracion.perfiles',[
             'usuario' => $usuario,
             'tokenslis' => $tokenslis,
             'tokens' => $tokens,
+            'servicios' => $servicios
         ]);
     }
 
@@ -124,5 +133,42 @@ class Perfiles extends Component
         ]);
 
         $this->editarTokenModal = false;        
+    }
+
+    public function agregarWhatsApp($id)
+    {
+        $token = DB::table('personal_access_tokens')->find($id);
+
+        $this->usuario_id = $token->tokenable_id;//id del usuario propietario del token
+        $this->tokenapid = $token->id;
+        
+        $this->reset(['token']);
+        $this->reset(['uri']);
+
+        $this->agregarconfigWhatsAppModal = true;
+        //dd($servicios);
+    }
+
+    public function guardarconfigWhatsApp()
+    {
+        $resul = $this->validate([
+            'usuario_id' => 'required',
+            'servicios_id' => 'required',
+            'tokenapid' => 'required',            
+            'token' => 'required',
+            'uri' => 'required',
+        ]); 
+
+        $nuevo = Configwhatsapp::create([
+            'user_id' => $resul['usuario_id'],
+            'servicio_id'  => $resul['servicios_id'],
+            'token_id'  => $resul['tokenapid'],
+            'token'  => $resul['token'],
+            'uri'  => $resul['uri'],
+        ]);
+
+        //dd($nuevo);
+
+        $this->agregarconfigWhatsAppModal = false;
     }
 }
