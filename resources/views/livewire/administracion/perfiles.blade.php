@@ -123,6 +123,7 @@
                             <th class="px-4 py-3">Vencimiento</th>
                             <th class="px-4 py-3">Atributos</th>
                             <th class="px-4 py-3">Acciones</th>
+                            <th class="px-4 py-3">WhatsApp</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -155,14 +156,27 @@
                                         {{$abilitie}}                                    
                                     @endforeach                                
                                 </td>
-                                <td class="px-4 py-3">                              
+                                <td class="px-4 py-3">
+                                    <button class="bg-blue-500 dark:bg-gray-100 text-white active:bg-blue-600 dark:text-gray-800 dark:active:text-gray-700 text-xs 
+                                    font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" 
+                                        type="button" wire:click="editarToken({{$token->id}})">Editar
+                                    </button>                             
                                     <button class="bg-blue-500 dark:bg-red-700 text-white active:bg-blue-600 dark:text-red-200 
                                         dark:active:text-red-100 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 
                                         ease-linear transition-all duration-150" 
                                         type="button" wire:click="eliminarToken({{$token->id}})">Eliminar
-                                    </button>
+                                    </button>                                    
                                 </td>
-                                
+                                <td class="px-4 py-3">
+                                    @foreach ($token->abilities as $abilitie)                                    
+                                        @if ($abilitie == 'WhatsApp' )
+                                            <button class="bg-blue-500 dark:bg-gray-100 text-white active:bg-blue-600 dark:text-gray-800 dark:active:text-gray-700 text-xs 
+                                            font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" 
+                                                type="button" >Configuración
+                                            </button>
+                                        @endif                                   
+                                    @endforeach 
+                                </td>                                
                             </tr>                                
                         @endforeach
                     </tbody>                        
@@ -178,40 +192,80 @@
     </div>    
 <!-- \tabla -->
 
-<!-- Inicio del Modal para Eliminar token -->
-<x-jet-dialog-modal wire:model="eliminatoken">
-    <x-slot name="title">
-        {{ __('Borrar Token') }}
-    </x-slot>
-    <x-slot name="content">             
-        {{$mensaje}}
-    </x-slot>
+    <!-- Inicio del Modal para Eliminar token -->
+    <x-jet-dialog-modal wire:model="eliminatoken">
+        <x-slot name="title">
+            {{ __('Borrar Token') }}
+        </x-slot>
+        <x-slot name="content">             
+            {{$mensaje}}
+        </x-slot>
 
-    <x-slot name="footer">            
-        <x-jet-secondary-button wire:click="$toggle('eliminatoken', false)" wire:loading.attr="disabled">
-            {{ __('Cerrar') }}
-        </x-jet-secondary-button>
-        <x-jet-danger-button class="ml-3" wire:click="borrarToken({{$identificador}})" wire:loading.attr="disabled">
-            {{ __('Eliminar') }}
-        </x-jet-danger-button>
-    </x-slot>
-</x-jet-dialog-modal>
-<!-- Fin del Modal para Eliminar token -->
+        <x-slot name="footer">            
+            <x-jet-secondary-button wire:click="$toggle('eliminatoken', false)" wire:loading.attr="disabled">
+                {{ __('Cerrar') }}
+            </x-jet-secondary-button>
+            <x-jet-danger-button class="ml-3" wire:click="borrarToken({{$identificador}})" wire:loading.attr="disabled">
+                {{ __('Eliminar') }}
+            </x-jet-danger-button>
+        </x-slot>
+    </x-jet-dialog-modal>
+    <!-- Fin del Modal para Eliminar token -->
 
-<!-- Inicio del Modal para mensajes alertas-->
-<x-jet-dialog-modal wire:model="modalMensaje">
-    <x-slot name="title">
-        {{ $titulo }}
-    </x-slot>
-    <x-slot name="content">             
-        {{$mensaje}}
-    </x-slot>
+    <!-- Inicio del Modal para mensajes alertas-->
+    <x-jet-dialog-modal wire:model="modalMensaje">
+        <x-slot name="title">
+            {{ $titulo }}
+        </x-slot>
+        <x-slot name="content">             
+            {{$mensaje}}
+        </x-slot>
 
-    <x-slot name="footer">            
-        <x-jet-secondary-button wire:click="$toggle('modalMensaje', false)" wire:loading.attr="disabled">
-            {{ __('Cerrar') }}
-        </x-jet-secondary-button>
-    </x-slot>
-</x-jet-dialog-modal>
-<!-- Fin del Modal para mensajes alertas -->
+        <x-slot name="footer">            
+            <x-jet-secondary-button wire:click="$toggle('modalMensaje', false)" wire:loading.attr="disabled">
+                {{ __('Cerrar') }}
+            </x-jet-secondary-button>
+        </x-slot>
+    </x-jet-dialog-modal>
+    <!-- Fin del Modal para mensajes alertas -->
+
+    <!-- Editar token -->
+    <x-jet-dialog-modal wire:model="editarTokenModal">
+        <x-slot name="title">
+            {{ $titulo }}
+        </x-slot>
+        <x-slot name="content">
+            <div class="flex flex-col">
+                <x-jet-input id="token_id" type="hidden" class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 
+                dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none" wire:model.defer="token_id"/>
+                                                                 
+            </div>             
+            <div class="flex flex-col">
+                <x-jet-label for="name" class="bg-gray-100 dark:bg-gray-700 dark:text-white" value="{{ __('Nombre del Token') }}" />
+                <x-jet-input id="name" type="text" class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 
+                dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none" wire:model.defer="name"/>
+                <x-jet-input-error for="name" class="mt-2 bg-gray-100 dark:bg-gray-700 dark:text-white" />                                                     
+            </div>
+            <div class="flex flex-col mt-2">
+                <x-jet-label for="rol" class="bg-gray-100 dark:bg-gray-700 dark:text-white" value="{{ __('Rol') }}" />
+                <select name="abilities" id="abilities" wire:model.defer="abilities" class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 
+                dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none">
+                    <option value="" selected>Seleccionar Rol</option>
+                    @foreach ($listadeatributos as $lista)                            
+                        <option value="{{ $lista['id'] }}">{{ $lista['atributo'] }}</option>                            
+                    @endforeach                                           
+                </select>
+            </div>            
+        </x-slot>
+
+        <x-slot name="footer">            
+            <x-jet-secondary-button wire:click="$toggle('editarTokenModal', false)" wire:loading.attr="disabled">
+                {{ __('Cerrar') }}
+            </x-jet-secondary-button>
+            <x-jet-danger-button class="ml-3" wire:click="guardarcambiodetoken()" wire:loading.attr="disabled">
+                {{ __('Guardar') }}
+            </x-jet-danger-button>
+        </x-slot>
+    </x-jet-dialog-modal>
+    <!-- Editar token -->
 </div>

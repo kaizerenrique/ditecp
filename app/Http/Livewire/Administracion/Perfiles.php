@@ -22,6 +22,14 @@ class Perfiles extends Component
     public $identificador;
     public $titulo;
     public $mensaje;
+    public $editarTokenModal = false;
+    public $token_id, $name, $abilities;
+
+    public $listadeatributos = array(
+        '0' => ['id' => 1, 'atributo' => '["USD","CNE","IVSS"]'],
+        '1' => ['id' => 2, 'atributo' => '["USD","CNE","IVSS","WhatsApp"]'],
+        '3' => ['id' => 3, 'atributo' => '["Desactivado"]'],
+    );
 
     protected $queryString = [
         'buscar' => ['except' => '']
@@ -62,11 +70,59 @@ class Perfiles extends Component
 
     public function borrarToken($id)
     {        
-        $tokenId = $id;        
-        //auth()->user()->tokens()->where('id', $tokenId )->delete();
-        
+        $tokenId = $id;         
         $tokens = DB::table('personal_access_tokens')->where('id', $tokenId )->delete();
 
         $this->eliminatoken = false;
+    }
+
+    public function editarToken($id)
+    {
+        $token = DB::table('personal_access_tokens')->find($id);
+
+        
+        //dd($token->abilities);
+        //dd($this->listadeatributos);
+        $this->token_id = $token->id;
+        $this->name = $token->name; 
+
+        if ($token->abilities == '["USD","CNE","IVSS"]') {
+            $this->abilities = '1';
+        } elseif($token->abilities == '["USD","CNE","IVSS","WhatsApp"]'){
+            $this->abilities = '2';
+        } elseif($token->abilities == '["Desactivado"]'){
+            $this->abilities = '3';
+        }
+
+
+        
+        $this->titulo = "Editar Token";
+        $this->editarTokenModal = true;
+        
+    }
+
+    public function guardarcambiodetoken()
+    {
+        $resul = $this->validate([
+            'token_id' => 'required',
+            'name' => 'required',
+            'abilities' => 'required',
+        ]); 
+
+        if ($resul['abilities'] == '1') {
+            $abilities = '["USD","CNE","IVSS"]';
+        } elseif ($resul['abilities'] == '2') {
+            $abilities = '["USD","CNE","IVSS","WhatsApp"]';
+        } elseif ($resul['abilities'] == '3') {
+            $abilities = '["Desactivado"]';
+        }
+
+        $token = DB::table('personal_access_tokens')->where('id', $resul['token_id']);
+
+        $token->update([
+            "abilities" => $abilities
+        ]);
+
+        $this->editarTokenModal = false;        
     }
 }

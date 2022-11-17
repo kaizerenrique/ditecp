@@ -35,7 +35,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('administracion/usuarios', 
 })->name('usuarios');
 
 //ruta del perfil del usuario
-Route::middleware(['auth:sanctum', 'verified'])->get('administracion/usuarios/{id}', Perfiles::class)->name('perfiles');
+Route::middleware(['auth:sanctum', 'verified'])->get('administracion/perfiles/{id}', Perfiles::class)->name('perfiles');
 
 //ruta de la informacion detallada del token
 Route::middleware(['auth:sanctum', 'verified'])->get('administracion/tokeninfo/{id}', TokenInfo::class)->name('informaciontoken');
