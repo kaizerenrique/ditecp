@@ -294,6 +294,11 @@ class DitecpController extends Controller
                 ];
             }
 
+            $request->user()->registros()->create([
+                'token_id' => $respuesta['id_token'],
+                'operacion' => $respuesta['operacion']
+            ]);
+
             $mensaje = $request->mensaje;
             $token = $resul['tokenApi'];
             $uri = $resul['uriApi'];
