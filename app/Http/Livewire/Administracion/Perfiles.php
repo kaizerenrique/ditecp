@@ -88,10 +88,6 @@ class Perfiles extends Component
     public function editarToken($id)
     {
         $token = DB::table('personal_access_tokens')->find($id);
-
-        
-        //dd($token->abilities);
-        //dd($this->listadeatributos);
         $this->token_id = $token->id;
         $this->name = $token->name; 
 
@@ -102,12 +98,8 @@ class Perfiles extends Component
         } elseif($token->abilities == '["Desactivado"]'){
             $this->abilities = '3';
         }
-
-
-        
         $this->titulo = "Editar Token";
-        $this->editarTokenModal = true;
-        
+        $this->editarTokenModal = true;        
     }
 
     public function guardarcambiodetoken()
@@ -146,7 +138,6 @@ class Perfiles extends Component
         $this->reset(['uri']);
 
         $this->agregarconfigWhatsAppModal = true;
-        //dd($servicios);
     }
 
     public function guardarconfigWhatsApp()
@@ -167,8 +158,35 @@ class Perfiles extends Component
             'uri'  => $resul['uri'],
         ]);
 
-        //dd($nuevo);
-
         $this->agregarconfigWhatsAppModal = false;
+    }
+
+    public function eliminarTokenWhatsApp($id)
+    {
+        //optener la configuracion del token
+        $configuraciones = Configwhatsapp::where('token_id', $id)->get();
+
+        foreach ($configuraciones as $configuracion)
+        {
+            $resultado = [
+                'id' => $configuracion->id,
+                'token_id' => $configuracion->token_id,
+            ];            
+        }
+
+        if (!empty($resultado)) {           
+
+            $token = DB::table('personal_access_tokens')->where('id', $resultado['token_id']);            
+            $abili = '["USD","CNE","IVSS"]';
+            $token->update([
+                "abilities" => $abili
+            ]);
+            $eliminar = Configwhatsapp::where('id', $resultado['id'] )->delete();
+        } else {
+            $this->titulo = "Alerta !!";
+            $this->mensaje = 'El token no esta configurado, aun no posee parámetros.';
+            $this->modalMensaje = true;
+        }
+        
     }
 }
