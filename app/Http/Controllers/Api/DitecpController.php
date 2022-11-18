@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Http;
 use App\Models\Registro;
 use App\Traits\OperacionesBCV;
 use App\Traits\Whatsapp;
+use App\Models\Configwhatsapp;
 
 class DitecpController extends Controller
 {    
@@ -272,9 +273,30 @@ class DitecpController extends Controller
                 'nombre' => 'string|nullable',
             ]);
 
+            foreach ($request->user()->tokens()->get() as $tokenapli)
+            {
+                if (hash_equals($tokenapli->token, hash('sha256', $request->bearerToken()))) {
+                    $respuesta = [
+                        'usuario' => $request->user()->id,
+                        'id_token' => $tokenapli->id,
+                        'operacion' => 'WhatsApp'
+                    ];
+                }
+            }
+            
+            $configuraciones = Configwhatsapp::where('token_id', $tokenapli->id)->get();
+
+            foreach ($configuraciones as $configuracion)
+            {
+                $resul = [
+                    'tokenApi' => $configuracion->token,
+                    'uriApi' => $configuracion->uri,
+                ];
+            }
+
             $mensaje = $request->mensaje;
-            $token = 'EAALL22xSKwcBAJRJkgcZB7ChsjC2ZBgZAnYxCLAFgafJolH6wY3TmKdyaBzVjnHi1EIZBeTtww0dHQv6kJvbGWZBpDsMyhTSpiUgxpIyHKKPR1tNjjf72C0J7pTABH83PL1K6lYt2vQPGIWetXFE9fl9XL9LlFJ9O864ohLpEuGuPA0AYhRQexsH7ZBJu4AccmzMFVftT0ogZDZD';
-            $uri = 'https://graph.facebook.com/v13.0/102740705902434/messages';
+            $token = $resul['tokenApi'];
+            $uri = $resul['uriApi'];
             $telefono = $request->telefono;
             $documento = $request->documento;
             $nombre = $request->nombre;
