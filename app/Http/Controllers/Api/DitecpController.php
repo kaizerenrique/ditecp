@@ -283,6 +283,11 @@ class DitecpController extends Controller
                     ];
                 }
             }
+
+            $request->user()->registros()->create([
+                'token_id' => $respuesta['id_token'],
+                'operacion' => $respuesta['operacion']
+            ]);
             
             $configuraciones = Configwhatsapp::where('token_id', $tokenapli->id)->get();
 
@@ -292,12 +297,7 @@ class DitecpController extends Controller
                     'tokenApi' => $configuracion->token,
                     'uriApi' => $configuracion->uri,
                 ];
-            }
-
-            $request->user()->registros()->create([
-                'token_id' => $respuesta['id_token'],
-                'operacion' => $respuesta['operacion']
-            ]);
+            }           
 
             $mensaje = $request->mensaje;
             $token = $resul['tokenApi'];
