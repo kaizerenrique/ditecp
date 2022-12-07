@@ -28,3 +28,6 @@ Route::post('/consultarCedulaIvssPension',[DitecpController::class,'consultaIvss
 Route::post('/consultarCedulaIvss',[DitecpController::class,'consultarCuentaIndividualIvss'])->middleware('auth:sanctum');
 
 Route::post('/apiwha',[DitecpController::class,'apiwha'])->middleware('auth:sanctum');
+
+Route::get('/apiwhawebhooks',[DitecpController::class,'apiwhawebhooks']);
+Route::post('/apiwhawebhooks',[DitecpController::class,'apiprocesobhooks']);

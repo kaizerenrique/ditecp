@@ -10,6 +10,7 @@ use App\Models\Registro;
 use App\Traits\OperacionesBCV;
 use App\Traits\Whatsapp;
 use App\Models\Configwhatsapp;
+use Exception;
 
 class DitecpController extends Controller
 {    
@@ -307,13 +308,27 @@ class DitecpController extends Controller
             $nombre = $request->nombre;
 
             if ($request->documento == null) {
-                $text = "plantilla_base_04";
+                $text = "plantilla_base_01";
                 $info = $this->enviarmensajebasico($text, $mensaje, $token, $uri, $telefono); 
             } else {
-                $documen = "plantilla_base_03";
+                $documen = "plantilla_base_02"; //multimedia documento pdf
                 $info = $this->enviomensajepdf($documen, $mensaje, $token, $uri, $telefono, $documento, $nombre); 
             } 
             return $info;
+            //return $info['messages'];
+            //return $configuraciones;
+            if ($info['messaging_product'] == 'whatsapp'){
+                return response()->json([
+                    "status" => 200,
+                    "info" => 'Envió exitoso'
+                ]);
+            } else {
+                return response()->json([
+                    "status" => 401,
+                    "info" => "Error" 
+                ]);
+            }
+            
         } else {
             return response()->json([
                 "status" => 401,
@@ -321,5 +336,57 @@ class DitecpController extends Controller
             ]);
         }
         
+    }
+
+    public function apiwhawebhooks(Request $request)
+    {
+        try {
+            $verifyToken = 'd4y4n4'; //token para comprobacion de facebook
+            $query = $request->query();
+
+            $mode = $query['hub_mode'];
+            $token = $query['hub_verify_token'];
+            $challenge = $query['hub_challenge'];
+            
+            if ($mode && $token) {
+                if ($mode === 'subscribe' && $token == $verifyToken) {
+                    return response($challenge, 200)->header('Content-Type', 'text/plain');
+                }
+            } 
+
+            throw new Exception('Invalid request');
+        }
+        catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage(),
+            ], 500);            
+        }
+    }
+
+    public function apiprocesobhooks(Request $request)
+    {
+        try {
+            $bodyContent = json_decode($request->getContent(), true); 
+            $body = '';
+
+            $value = $bodyContent['entry'][0]['changes'][0]['value'];
+
+            if (!empty($value['messages'])) {
+                if ($value['messages'][0]['type'] == 'text') {
+                    $body = $value['messages'][0]['text']['body'];
+                }
+            }
+            return response()->json([
+                'success' => true,
+                'data' => $body
+            ], 200);
+        }
+        catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage(),
+            ], 500);            
+        }
     }
 }
