@@ -10,6 +10,7 @@ use App\Models\Registro;
 use App\Traits\OperacionesBCV;
 use App\Traits\Whatsapp;
 use App\Models\Configwhatsapp;
+use App\Models\WhatsappMensajes;
 use Exception;
 
 class DitecpController extends Controller
@@ -295,6 +296,9 @@ class DitecpController extends Controller
             foreach ($configuraciones as $configuracion)
             {
                 $resul = [
+                    'configwhatsapps_id' => $configuracion->id,
+                    'user_id' => $configuracion->user_id,
+                    'token_id'  => $configuracion->token_id,
                     'tokenApi' => $configuracion->token,
                     'uriApi' => $configuracion->uri,
                 ];
@@ -314,10 +318,23 @@ class DitecpController extends Controller
                 $documen = "plantilla_base_02"; //multimedia documento pdf
                 $info = $this->enviomensajepdf($documen, $mensaje, $token, $uri, $telefono, $documento, $nombre); 
             } 
-            return $info;
-            //return $info['messages'];
-            //return $configuraciones;
+            
             if ($info['messaging_product'] == 'whatsapp'){
+                
+                //configuracion de datos a guardar 
+                WhatsappMensajes::create([
+                    'token_id' => $resul['token_id'],
+                    'configwhatsapps_id' => $resul['configwhatsapps_id'],
+                    'user_id' => $resul['user_id'],
+                    'id_mensaje' => $info['messages'][0]['id'],
+                    'status' => null,
+                    'linea_temporal' => null,
+                    'recipient' => $telefono,
+                    'id_wha_buss' => null,
+                    'id_tlf_buss' => null,
+                    'display_phone_number' => null,
+                ]);
+
                 return response()->json([
                     "status" => 200,
                     "info" => 'Envió exitoso'
