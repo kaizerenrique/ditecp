@@ -315,6 +315,27 @@
                     dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none" wire:model.defer="uri"/>
                     <x-jet-input-error for="uri" class="mt-2 bg-gray-100 dark:bg-gray-700 dark:text-white" />                                                     
                 </div>
+
+                <div class="flex flex-col">
+                    <x-jet-label for="id_wha_buss" class="bg-gray-100 dark:bg-gray-700 dark:text-white" value="{{ __('Identificador de la cuenta de WhatsApp Business') }}" />
+                    <x-jet-input id="id_wha_buss" type="text" class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 
+                    dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none" wire:model.defer="id_wha_buss"/>
+                    <x-jet-input-error for="id_wha_buss" class="mt-2 bg-gray-100 dark:bg-gray-700 dark:text-white" />                                                     
+                </div>
+
+                <div class="flex flex-col">
+                    <x-jet-label for="id_tlf_buss" class="bg-gray-100 dark:bg-gray-700 dark:text-white" value="{{ __('Identificador de número de teléfono') }}" />
+                    <x-jet-input id="id_tlf_buss" type="text" class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 
+                    dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none" wire:model.defer="id_tlf_buss"/>
+                    <x-jet-input-error for="id_tlf_buss" class="mt-2 bg-gray-100 dark:bg-gray-700 dark:text-white" />                                                     
+                </div>
+
+                <div class="flex flex-col">
+                    <x-jet-label for="telefono_comercial" class="bg-gray-100 dark:bg-gray-700 dark:text-white" value="{{ __('Nro Telefono') }}" />
+                    <x-jet-input id="telefono_comercial" type="text" class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 
+                    dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none" wire:model.defer="telefono_comercial"/>
+                    <x-jet-input-error for="telefono_comercial" class="mt-2 bg-gray-100 dark:bg-gray-700 dark:text-white" />                                                     
+                </div>
                           
             </x-slot>
     

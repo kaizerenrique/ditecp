@@ -35,7 +35,7 @@ class Perfiles extends Component
     );
 
     public $agregarconfigWhatsAppModal = false;
-    public $usuario_id, $servicios_id, $tokenapid, $token, $uri;
+    public $usuario_id, $servicios_id, $tokenapid, $token, $uri, $id_wha_buss, $id_tlf_buss, $telefono_comercial;
 
     protected $queryString = [
         'buscar' => ['except' => '']
@@ -136,6 +136,9 @@ class Perfiles extends Component
         
         $this->reset(['token']);
         $this->reset(['uri']);
+        $this->reset(['id_wha_buss']);
+        $this->reset(['id_tlf_buss']);
+        $this->reset(['telefono_comercial']);
 
         $this->agregarconfigWhatsAppModal = true;
     }
@@ -148,6 +151,9 @@ class Perfiles extends Component
             'tokenapid' => 'required',            
             'token' => 'required',
             'uri' => 'required',
+            'id_wha_buss' => 'required',
+            'id_tlf_buss' => 'required',
+            'telefono_comercial' => 'required',
         ]); 
 
         $nuevo = Configwhatsapp::create([
@@ -156,6 +162,9 @@ class Perfiles extends Component
             'token_id'  => $resul['tokenapid'],
             'token'  => $resul['token'],
             'uri'  => $resul['uri'],
+            'id_wha_buss'  => $resul['id_wha_buss'],
+            'id_tlf_buss'  => $resul['id_tlf_buss'],
+            'telefono_comercial'  => $resul['telefono_comercial'],
         ]);
 
         $this->agregarconfigWhatsAppModal = false;

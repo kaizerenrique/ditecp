@@ -30,6 +30,9 @@ return new class extends Migration
             $table->integer('token_id')->index();
             $table->string('token');
             $table->string('uri');
+            $table->string('id_wha_buss'); // Identificador de la cuenta de WhatsApp Business
+            $table->string('id_tlf_buss'); // Identificador de número de teléfono
+            $table->string('telefono_comercial');            
 
             $table->timestamps();
         });

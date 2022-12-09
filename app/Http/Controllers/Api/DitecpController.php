@@ -358,7 +358,9 @@ class DitecpController extends Controller
     public function apiwhawebhooks(Request $request)
     {
         try {
-            $verifyToken = 'd4y4n4'; //token para comprobacion de facebook
+            //$verifyToken = 'nuevotoken123'; //token para comprobacion de facebook
+            
+            $verifyToken = env('VERIFYTOKENFACE');
             $query = $request->query();
 
             $mode = $query['hub_mode'];
@@ -387,34 +389,54 @@ class DitecpController extends Controller
             $bodyContent = json_decode($request->getContent(), true); 
             $body = '';
 
-            $value = $bodyContent['entry'][0]['changes'][0]['value'];
+            $value = $bodyContent['entry'][0]['changes'][0]['value'];  
 
             if (!empty($value['messages'])) {
                 if ($value['messages'][0]['type'] == 'text') {
-                    $body = $value['messages'][0]['text']['body'];
+                    $body = $value['messages'][0]['text']['body']; 
+                    $data_num = $value['metadata']['phone_number_id']; 
                 }
-            } elseif (!empty($value['statuses'])) {
-                //identificador de mensaje
-                $configuraciones = WhatsappMensajes::where('id_mensaje', $value['statuses'][0]['id'])->first();                
+            } elseif (!empty($value['statuses'])) {     
+                
+                if (WhatsappMensajes::where('id_mensaje', $value['statuses'][0]['id'])->exists()) {
+                    //identificador de mensaje
+                    $configuraciones = WhatsappMensajes::where('id_mensaje', $value['statuses'][0]['id'])->first();
 
-                //configuracion de datos a guardar 
-                WhatsappMensajes::create([
-                    'token_id' => $configuraciones->token_id,
-                    'configwhatsapps_id' => $configuraciones->configwhatsapps_id,
-                    'user_id' => $configuraciones->user_id,
-                    'id_mensaje' => $value['statuses'][0]['id'],
-                    'status' => $value['statuses'][0]['status'],
-                    'linea_temporal' => $value['statuses'][0]['timestamp'],
-                    'recipient' => $value['statuses'][0]['recipient_id'],
-                    'id_wha_buss' => $bodyContent['entry'][0]['id'],
-                    'id_tlf_buss' => $value['metadata']['phone_number_id'],
-                    'display_phone_number' => $value['metadata']['display_phone_number'],
-                ]);
-
+                    //configuracion de datos a guardar 
+                    WhatsappMensajes::create([
+                        'token_id' => $configuraciones->token_id,
+                        'configwhatsapps_id' => $configuraciones->configwhatsapps_id,
+                        'user_id' => $configuraciones->user_id,
+                        'id_mensaje' => $value['statuses'][0]['id'],
+                        'status' => $value['statuses'][0]['status'],
+                        'linea_temporal' => $value['statuses'][0]['timestamp'],
+                        'recipient' => $value['statuses'][0]['recipient_id'],
+                        'id_wha_buss' => $bodyContent['entry'][0]['id'],
+                        'id_tlf_buss' => $value['metadata']['phone_number_id'],
+                        'display_phone_number' => $value['metadata']['display_phone_number'],
+                    ]);
+                } else {
+                                                          
+                }  
             }
+
+            if (!empty($data_num)) {
+                $id_telefono = Configwhatsapp::where('id_tlf_buss', $data_num)->first();
+                    //$telefon = $id_telefono->telefono_comercial; 
+                    
+                    $mensaje = $body . ' Telefono de origen: ' . $id_telefono->telefono_comercial;
+                    $token = $id_telefono->token;
+                    $uri = $id_telefono->uri;
+                    $telefono = $id_telefono->telefono_comercial;
+                    $text = "plantilla_base_01";
+                    $info = $this->enviarmensajebasico($text, $mensaje, $token, $uri, $telefono);
+            }
+
             return response()->json([
                 'success' => true,
-                'data' => $body
+                'data' => [
+                    'body' => $body,            
+                ]
             ], 200);
         }
         catch (Exception $e) {

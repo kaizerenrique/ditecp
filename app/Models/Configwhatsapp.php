@@ -14,6 +14,9 @@ class Configwhatsapp extends Model
         'servicio_id',
         'token_id',
         'token',
-        'uri'
+        'uri',
+        'id_wha_buss',
+        'id_tlf_buss',
+        'telefono_comercial',
     ];
 }
