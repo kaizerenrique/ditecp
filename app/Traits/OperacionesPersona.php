@@ -9,7 +9,24 @@ trait OperacionesPersona {
     public function consultarpersona($nac, $ci)
     {
         if (Persona::where('cedula', $ci)->exists()) {
-            $info = Persona::where('cedula', $ci)->get();
+            $personas = Persona::where('cedula', $ci)->get();
+            
+            foreach ($personas as $persona) {
+                $info = [
+                    'error' => '0',
+                    'nacionalidad' => $persona->nacionalidad,
+                    'cedula' => $persona->cedula,
+                    'nombres' => $persona->nombres,
+                    'apellidos' => $persona->apellidos,
+                    'inscrito' => $persona->cne->inscrito,
+                    'cvestado' => $persona->cne->cvestado,
+                    'cvmunicipio' => $persona->cne->cvmunicipio,
+                    'cvparroquia' => $persona->cne->cvparroquia,
+                    'centro' => $persona->cne->centro,
+                    'direccion' => $persona->cne->direccion,
+                ];
+            }
+
         } else {
             $conCedulaCne = new ConsultaCedula();
             $info = $conCedulaCne->consultar($nac, $ci);
@@ -20,6 +37,13 @@ trait OperacionesPersona {
                     'cedula' => $info['cedula'],
                     'nombres' => $info['nombres'],
                     'apellidos' => $info['apellidos'],
+                ])->cne()->create([
+                    'inscrito' => $info['inscrito'],
+                    'cvestado' => $info['cvestado'],
+                    'cvmunicipio' => $info['cvmunicipio'],
+                    'cvparroquia' => $info['cvparroquia'],
+                    'centro' => $info['centro'],
+                    'direccion' => $info['direccion']
                 ]);
             } else {
                 return $info;

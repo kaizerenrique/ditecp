@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Cne extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'inscrito',
+        'cvestado',
+        'cvmunicipio',
+        'cvparroquia',
+        'centro',
+        'direccion'
+    ];
 }

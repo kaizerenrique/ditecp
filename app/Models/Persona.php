@@ -15,4 +15,9 @@ class Persona extends Model
         'nombres',
         'apellidos'
     ];
+
+    public function cne()
+    {
+        return $this->hasOne(Cne::class);
+    }
 }
