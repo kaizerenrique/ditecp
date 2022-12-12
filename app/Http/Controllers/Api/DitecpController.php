@@ -8,6 +8,7 @@ use Kaizerenrique\Cedulavenezuela\ConsultaCedula;
 use Illuminate\Support\Facades\Http;
 use App\Models\Registro;
 use App\Traits\OperacionesBCV;
+use App\Traits\OperacionesPersona;
 use App\Traits\Whatsapp;
 use App\Models\Configwhatsapp;
 use App\Models\WhatsappMensajes;
@@ -16,6 +17,7 @@ use Exception;
 class DitecpController extends Controller
 {    
     use OperacionesBCV;
+    use OperacionesPersona;
     use Whatsapp;
 
     /**
@@ -87,10 +89,9 @@ class DitecpController extends Controller
     
             $nac = $request->nac;
             $ci = $request->ci;
-    
-            $conCedulaCne = new ConsultaCedula();
-            $info = $conCedulaCne->consultar($nac, $ci);
-    
+            
+            
+
             //almacena los datos del usuario y el token que realizan la consulta
             foreach ($request->user()->tokens()->get() as $tokenapli)
             {
@@ -107,7 +108,9 @@ class DitecpController extends Controller
                 'token_id' => $respuesta['id_token'],
                 'operacion' => $respuesta['operacion']
             ]);
-    
+            
+            $info = $this->consultarpersona($nac, $ci);
+            
             if ($info == false) {
                 return response()->json([
                     "status" => 404,

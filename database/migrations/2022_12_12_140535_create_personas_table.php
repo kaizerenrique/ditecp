@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('personas', function (Blueprint $table) {
             $table->id();
+            $table->string('nacionalidad', 1);
+            $table->string('cedula')->unique();
+            $table->string('nombres');
+            $table->string('apellidos');
             $table->timestamps();
         });
     }
