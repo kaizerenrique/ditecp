@@ -14,12 +14,17 @@ trait OperacionesPersona {
             $conCedulaCne = new ConsultaCedula();
             $info = $conCedulaCne->consultar($nac, $ci);
 
-            Persona::create([
-                'nacionalidad' => $info['nacionalidad'],
-                'cedula' => $info['cedula'],
-                'nombres' => $info['nombres'],
-                'apellidos' => $info['apellidos'],
-            ]);
+            if ($info['error'] == 0 ) {
+                Persona::create([
+                    'nacionalidad' => $info['nacionalidad'],
+                    'cedula' => $info['cedula'],
+                    'nombres' => $info['nombres'],
+                    'apellidos' => $info['apellidos'],
+                ]);
+            } else {
+                return $info;
+            }
+            
         }
 
         return $info;
