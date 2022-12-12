@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('cedula')->unique();
             $table->string('nombres');
             $table->string('apellidos');
+            $table->date('fecha_nacimiento')->nullable();
             $table->timestamps();
         });
     }

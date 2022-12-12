@@ -13,7 +13,8 @@ class Persona extends Model
         'nacionalidad',
         'cedula',
         'nombres',
-        'apellidos'
+        'apellidos',
+        'fecha_nacimiento'
     ];
 
     public function cne()
