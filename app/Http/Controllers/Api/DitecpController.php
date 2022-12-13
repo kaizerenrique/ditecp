@@ -88,9 +88,7 @@ class DitecpController extends Controller
             ]);
     
             $nac = $request->nac;
-            $ci = $request->ci;
-            
-            
+            $ci = $request->ci;       
 
             //almacena los datos del usuario y el token que realizan la consulta
             foreach ($request->user()->tokens()->get() as $tokenapli)

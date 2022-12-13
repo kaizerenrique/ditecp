@@ -54,4 +54,17 @@ trait OperacionesPersona {
         return $info;
     }
 
+    public function fecha_naciminto($nac, $ci, $d1, $m1, $y1)
+    {
+        $personas = Persona::where('cedula', $ci)->get();
+        foreach ($personas as $persona) {
+            $id = $persona->id;                
+        }        
+        $fecha = Persona::find($id);
+        $fecha->fecha_nacimiento = $y1.'-'.$m1.'-'.$d1;
+        $fecha->save();          
+
+        return $personas;
+    }
+
 }
