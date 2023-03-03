@@ -49,6 +49,9 @@ class DitecpController extends Controller
             $request->user()->registros()->create([
                 'token_id' => $respuesta['id_token'],
                 'operacion' => $respuesta['operacion']
+            ])->datosconexion()->create([
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->header('user-agent')
             ]);
 
             if ($usd == false) {
@@ -446,5 +449,15 @@ class DitecpController extends Controller
                 'error' => $e->getMessage(),
             ], 500);            
         }
+    }
+
+    public function datosconexion(Request $request)
+    {
+        
+        $datos = $request->ip();
+        $datos = $request->header('user-agent');
+        $datos = $request->header();
+
+        return $datos;
     }
 }

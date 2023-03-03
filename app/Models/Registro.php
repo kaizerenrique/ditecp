@@ -18,4 +18,10 @@ class Registro extends Model
     {
         return $this->hasMany(Registro::class);
     }
+
+    public function datosconexion()
+    {
+        return $this->hasOne(Sessionapi::class);
+    }
+
 }
