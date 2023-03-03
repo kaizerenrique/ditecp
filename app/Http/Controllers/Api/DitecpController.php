@@ -12,6 +12,7 @@ use App\Traits\OperacionesPersona;
 use App\Traits\Whatsapp;
 use App\Models\Configwhatsapp;
 use App\Models\WhatsappMensajes;
+use App\Traits\Datosdeconexion;
 use Exception;
 
 class DitecpController extends Controller
@@ -19,6 +20,7 @@ class DitecpController extends Controller
     use OperacionesBCV;
     use OperacionesPersona;
     use Whatsapp;
+    use Datosdeconexion;
 
     /**
     * consultarValorUsd.
@@ -35,24 +37,8 @@ class DitecpController extends Controller
 
         if ($request->user()->tokenCan('USD')) {
             //almacena los datos del usuario y el token que realizan la consulta
-            foreach ($request->user()->tokens()->get() as $tokenapli)
-            {
-                if (hash_equals($tokenapli->token, hash('sha256', $request->bearerToken()))) {
-                    $respuesta = [
-                        'usuario' => $request->user()->id,
-                        'id_token' => $tokenapli->id,
-                        'operacion' => 'consultar USD'
-                    ];
-                }
-            }
-
-            $request->user()->registros()->create([
-                'token_id' => $respuesta['id_token'],
-                'operacion' => $respuesta['operacion']
-            ])->datosconexion()->create([
-                'ip_address' => $request->ip(),
-                'user_agent' => $request->header('user-agent')
-            ]);
+            $operacion = 'consultar USD';
+            $datos = $this->guardardatos($request, $operacion );            
 
             if ($usd == false) {
                 return response()->json([
@@ -94,21 +80,8 @@ class DitecpController extends Controller
             $ci = $request->ci;       
 
             //almacena los datos del usuario y el token que realizan la consulta
-            foreach ($request->user()->tokens()->get() as $tokenapli)
-            {
-                if (hash_equals($tokenapli->token, hash('sha256', $request->bearerToken()))) {
-                    $respuesta = [
-                        'usuario' => $request->user()->id,
-                        'id_token' => $tokenapli->id,
-                        'operacion' => 'consultar Cedula CNE'
-                    ];
-                }
-            }
-     
-            $request->user()->registros()->create([
-                'token_id' => $respuesta['id_token'],
-                'operacion' => $respuesta['operacion']
-            ]);
+            $operacion = 'consultar Cedula CNE';
+            $datos = $this->guardardatos($request, $operacion );              
             
             $info = $this->consultarpersona($nac, $ci);
             
@@ -164,21 +137,8 @@ class DitecpController extends Controller
             $info = $conCedulaIvss->ivssPension($nac, $ci, $d1, $m1, $y1);
     
             //almacena los datos del usuario y el token que realizan la consulta
-            foreach ($request->user()->tokens()->get() as $tokenapli)
-            {
-                if (hash_equals($tokenapli->token, hash('sha256', $request->bearerToken()))) {
-                    $respuesta = [
-                        'usuario' => $request->user()->id,
-                        'id_token' => $tokenapli->id,
-                        'operacion' => 'consultar Pensionado IVSS'
-                    ];
-                }
-            }
-     
-            $request->user()->registros()->create([
-                'token_id' => $respuesta['id_token'],
-                'operacion' => $respuesta['operacion']
-            ]);
+            $operacion = 'consultar Pensionado IVSS';
+            $datos = $this->guardardatos($request, $operacion ); 
     
             if ($info == false) {
                 return response()->json([
@@ -232,21 +192,8 @@ class DitecpController extends Controller
             $info = $conCedulaIvss->cuentaIndividual($nac, $ci, $d, $m, $y);
     
             //almacena los datos del usuario y el token que realizan la consulta
-            foreach ($request->user()->tokens()->get() as $tokenapli)
-            {
-                if (hash_equals($tokenapli->token, hash('sha256', $request->bearerToken()))) {
-                    $respuesta = [
-                        'usuario' => $request->user()->id,
-                        'id_token' => $tokenapli->id,
-                        'operacion' => 'consultar Cuenta Individual IVSS'
-                    ];
-                }
-            }
-     
-            $request->user()->registros()->create([
-                'token_id' => $respuesta['id_token'],
-                'operacion' => $respuesta['operacion']
-            ]);
+            $operacion = 'consultar Cuenta Individual IVSS';
+            $datos = $this->guardardatos($request, $operacion );             
     
             if ($info == false) {
                 return response()->json([
@@ -451,13 +398,4 @@ class DitecpController extends Controller
         }
     }
 
-    public function datosconexion(Request $request)
-    {
-        
-        $datos = $request->ip();
-        $datos = $request->header('user-agent');
-        $datos = $request->header();
-
-        return $datos;
-    }
 }

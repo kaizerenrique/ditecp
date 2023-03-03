@@ -31,5 +31,3 @@ Route::post('/apiwha',[DitecpController::class,'apiwha'])->middleware('auth:sanc
 
 Route::get('/apiwhawebhooks',[DitecpController::class,'apiwhawebhooks']);
 Route::post('/apiwhawebhooks',[DitecpController::class,'apiprocesobhooks']);
-
-Route::get('/datosconexion',[DitecpController::class,'datosconexion'])->middleware('auth:sanctum');
