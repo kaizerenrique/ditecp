@@ -14,11 +14,18 @@ trait OperacionesBCV {
         if ($usd == false) {
             return false;
         } else {
-            $moneda = Valorbcv:: create([
-                'moneda' => 'USD',
-                'valor' => $usd,
-            ]);
-            return true;
+            $valor = $this->valordelusd();
+
+            if ($usd == $valor) {
+                return true;
+            } else {
+                $moneda = Valorbcv:: create([
+                    'moneda' => 'USD',
+                    'valor' => $usd,
+                ]);                
+            }
+            return true;            
+            
         }
     }
 
