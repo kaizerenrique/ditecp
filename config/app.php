@@ -145,6 +145,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Telegram  
+    |--------------------------------------------------------------------------
+    |
+    |
+    */
+
+    'telegram_id_grup' => env('TELEGRAM_GRUPO_ID', 'telegram_grupo_id'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |
@@ -185,6 +195,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Telegram\Bot\Laravel\TelegramServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -212,6 +223,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'Telegram'  => Telegram\Bot\Laravel\Facades\Telegram::class
     ])->toArray(),
 
 ];

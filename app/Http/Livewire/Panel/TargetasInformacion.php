@@ -18,7 +18,7 @@ class TargetasInformacion extends Component
     public function render()
     {
         //consultar Valor BCV
-        $usd = $this->valordelusd();
+        $usd = $this->valordelusd();        
 
         //consultar numero de tokens registrados
         $tokensNumero = auth()->user()->tokens()->count();

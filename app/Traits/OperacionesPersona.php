@@ -3,8 +3,11 @@ namespace App\Traits;
 
 use App\Models\Persona;
 use Kaizerenrique\Cedulavenezuela\ConsultaCedula;
+use App\Traits\EnvioMensajes;
 
 trait OperacionesPersona {
+
+    use EnvioMensajes;
 
     public function consultarpersona($nac, $ci)
     {
@@ -45,7 +48,7 @@ trait OperacionesPersona {
                     'centro' => $info['centro'],
                     'direccion' => $info['direccion']
                 ]);
-            } else {
+            } else { 
                 return $info;
             }
             

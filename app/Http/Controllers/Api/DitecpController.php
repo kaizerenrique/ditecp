@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Kaizerenrique\Cedulavenezuela\ConsultaCedula;
-use Illuminate\Support\Facades\Http;
-use App\Models\Registro;
 use App\Traits\OperacionesBCV;
 use App\Traits\OperacionesPersona;
 use App\Traits\Whatsapp;
