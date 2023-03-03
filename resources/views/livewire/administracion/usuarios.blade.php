@@ -112,6 +112,9 @@
                                 border-r-0 whitespace-nowrap font-semibold text-left">Función</th>
                                 <th class="px-4 bg-gray-100 dark:bg-gray-600 text-gray-500 dark:text-gray-100 align-middle 
                                 border border-solid border-gray-200 dark:border-gray-500 py-3 text-xs uppercase border-l-0 
+                                border-r-0 whitespace-nowrap font-semibold text-left">IP</th>
+                                <th class="px-4 bg-gray-100 dark:bg-gray-600 text-gray-500 dark:text-gray-100 align-middle 
+                                border border-solid border-gray-200 dark:border-gray-500 py-3 text-xs uppercase border-l-0 
                                 border-r-0 whitespace-nowrap font-semibold text-left">Actividad</th>
                             </tr>
                         </thead>
@@ -134,6 +137,9 @@
                                     </th>
                                     <th class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
                                         {{$registro->operacion}}                                                                          
+                                    </th> 
+                                    <th class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
+                                        {{$registro->datosconexion->ip_address}}                                                                          
                                     </th> 
                                     <th class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
                                         {{ \Carbon\Carbon::parse($registro->created_at)->diffForHumans() }}                                                                        
